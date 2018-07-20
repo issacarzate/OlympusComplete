@@ -1,0 +1,15 @@
+{
+  "HELLO": "Hola por parte de Olympus",
+  "I18N_EXAMPLE": "Ejemplo de traduccion",
+  "STRING_WITH_PARAMS": "Cadena con parametro: {{value}}",
+  "INNER_CONTENT": "Contenido interno con parametro: {{value}}",
+  "Preferences_Page_Tile": "Preferencias",
+  "Preferences_Language_Selector_Tile": "Idioma",
+  "Itinerary_Page_Title": "Acceder a Reservación",
+  "Itinerary_Main_Title": "Mi Itinerario",
+  "Itineray_Main_Text": "Ingresa tu número de reserva para no perderte de ningún detalle de tu viaje.",
+  "Itineray_Lastname": "Apellido",
+  "Itineray_Booking_Number": "Código de Reserva",
+  "Itinerary_location": "Ubicación de Recogida",
+  "Itinerary_button": "Continuar"
+}

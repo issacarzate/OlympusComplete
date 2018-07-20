@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button end (click)="signOut()">
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Promociones</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let offer of offers">
+      <img class="imagenCiudad" [src]="offer.imageLink" padding />
+      <h2 class="slide-title"
+          [innerHTML]="offer.title"
+          ion-text color="textHighlight"></h2>
+      <p [innerHTML]="offer.subtitle"
+         ion-text color="textPrimary"></p>
+      <p [innerHTML]="offer.content"
+         ion-text color="textPrimary"></p>
+      <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.link)">I'm Interested</button>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

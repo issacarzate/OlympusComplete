@@ -1,0 +1,46 @@
+page-itinerary {
+  .cardInstruction{
+    font-size: small;
+    font-weight: bold;
+    color: #51a7e8;
+  }
+  .cardContent{
+    font-size: medium;
+    color: map-get($colors, textPrimary);
+    font-weight: bold;
+    padding-top: initial;
+  }
+  .cardMap{
+    font-weight: bold;
+    font-size: large;
+    color: map-get($colors, textPrimary);
+  }
+  .cardInstructionMap{
+    font-size: small;
+    font-weight: bold;
+    color: #51a7e8;
+    padding-bottom: 0px;
+  }
+  .dateCard{
+    border: 0px solid white;
+    box-shadow: 0 0px 0px white;
+  }
+  .month{
+    font-size: large;
+    font-weight: bold;
+    color: #51a7e8;
+    padding-bottom: 0px;
+  }
+  .day{
+    font-size: x-large;
+    color: map-get($colors, textPrimary);
+    font-weight: bold;
+    padding-top: initial;
+  }
+  .colEvents{
+    border-left: 3px solid gray;
+  }
+  ion-card{
+    border: 1px solid map-get($colors, textPrimary);
+  }
+}

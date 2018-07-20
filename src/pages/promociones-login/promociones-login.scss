@@ -1,0 +1,17 @@
+page-promociones-login {
+  ion-content{
+    background: #3b5998 !important;
+  }
+  h3{
+    color: white ;
+  }
+  .ion-iconF{
+    font-size: 80px;
+  }
+  .vertical-align-content > *
+  {
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
+  }
+}

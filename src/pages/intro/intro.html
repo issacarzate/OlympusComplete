@@ -1,0 +1,45 @@
+<ion-content no-bounce padding>
+
+  <ion-slides pager>
+
+    <!-- Código para crear slides -->
+      <ion-slide *ngFor="let slide of slides">
+        <ion-toolbar>
+
+          <ion-buttons end>
+            <button ion-button color="primary"
+                    (click)="navHome()"
+                    ion-text color="textPrimary">Saltar</button>
+          </ion-buttons>
+
+        </ion-toolbar>
+
+        <img [src]="slide.image" class="slide-image"/>
+        <h2 class="slide-title"
+            [innerHTML]="slide.title"
+            ion-text color="textHighlight"></h2>
+        <p [innerHTML]="slide.description"
+           ion-text color="textPrimary"></p>
+      </ion-slide>
+      <!-- Fin del ngFor -->
+
+      <!-- Ultimo Slide -->
+      <ion-slide>
+        <ion-toolbar>
+        </ion-toolbar>
+
+        <img src="assets/img/ica-slidebox-img-4.png" class="slide-image"/>
+        <h2 class="slide-title" ion-text color="textHighlight">¿Listo para empezar?</h2>
+
+        <button ion-button large clear icon-right
+                (click)="navHome()"
+                color="textPrimary"
+               >
+          Continuar
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+
+      </ion-slide>
+      <!-- Fin del último slide -->
+
+    </ion-slides>

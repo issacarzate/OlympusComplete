@@ -1,3 +1,51 @@
 page-home {
 
+
+  .box{
+    height: 100%;
+  }
+  ion-slides{
+    height: 25vh !important;
+    padding: 2%;
+  }
+
+  .slider-pager-page {
+    color: white !important;
+  }
+
+  .swiper-pagination-bullet {
+    background: map-get($colors, textHighlight) !important;
+    margin: 0 3px;
+  }
+
+  .titulo-tours{
+    position: relative;
+    color: map-get($colors, textHighlight);
+    font-size: large;
+    font-weight: bold;
+    left: 3%;
+    top: -1%;
+    margin-bottom: -1%;
+  }
+
+    h5{
+      margin-top: 1%;
+      color: map-get($colors, textHighlight);
+      font-weight: bold;
+    }
+
+    p{
+      margin-bottom: -1%;
+      margin-top: -1%;
+      color: map-get($colors, textHighlight);
+    }
+
+    ion-col div {
+      /*background-color: #f0f5ff;
+      border: 1px solid #e6e9ee;
+      border-radius: 2px;*/
+      padding: 1px;
+      margin-top: -3%;
+    }
+
 }

@@ -38,21 +38,55 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  textPrimary: #2a2f7c,
+  textHighlight: #f05423,
+  textVanished: #a3a3a3
 );
 
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
+//Tabs
+$tabs-ios-tab-text-color-active: #2a2f7c;
+$tabs-ios-tab-icon-color-active: #2a2f7c;
 
+$tabs-ios-tab-text-color: #22265E;
+$tabs-ios-tab-icon-color: #22265E;
 
+$tabs-ios-background: white;
+
+$tabs-ios-border-color: white;
+
+$tabs-ios-tab-padding-bottom: 6px;
+
+//Toolbar
+$toolbar-ios-title-text-color: #f05423;
+$toolbar-ios-button-color: #f05423;
+$toolbar-ios-background: white;
+$toolbar-ios-border-color: white;
 
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+//Tabs
+$tabs-md-tab-text-color-active: #2a2f7c;
+$tabs-md-tab-icon-color-active: #2a2f7c;
 
+$tabs-md-tab-text-color: #22265E;
+$tabs-md-tab-icon-color: #22265E;
+
+$tabs-md-background: white;
+
+$tabs-md-border-color: white;
+
+//Toolbar
+$toolbar-md-title-text-color: #f05423;
+$toolbar-md-button-color: #f05423;
+$toolbar-md-background: white;
+$toolbar-md-border-color: white;
 
 
 

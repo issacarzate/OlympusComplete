@@ -1,0 +1,45 @@
+<!--
+  Generated template for the DestinationsInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Destinos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngFor="let tour of tours | async">
+    <img class="imagenTour" [src]=tour.image>
+
+    <ion-card-content>
+      <ion-card-title class="titulo">
+        {{tour.title}}
+      </ion-card-title>
+
+      <p class="contenido">{{tour.content}}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small (click)="playVideo(tour.videoId)">
+          <ion-icon color="textHighlight" name="logo-youtube"></ion-icon>
+          <div class="chips">Ver Video</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small (click)="abrirEnlace(tour.buyLink)">
+          <ion-icon color="textHighlight" name="text"></ion-icon>
+          <div  class="chips">Comprar Ahora</div>
+        </button>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-card>
+</ion-content>
