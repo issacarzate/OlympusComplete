@@ -16,4 +16,18 @@ page-promociones {
     opacity: 1;
     background: map-get($colors, textHighlight);
   }
+  ion-slide{
+    overflow: auto;
+    bottom: 4%;
+  }
+
+  .slide-zoom {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 5px 10px;
+  }
 }

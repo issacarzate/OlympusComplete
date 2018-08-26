@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Contacto</ion-title>
+    <ion-title>{{ "Contact_Page_Title" | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,16 +16,16 @@
 <ion-content class="outer-content">
   <ion-list>
     <ion-list-header>
-      Llámanos
+      {{ "Contact_MainTitle" | translate }}
     </ion-list-header>
 
-    <ion-item *ngFor="let numero of numeros">
-      <ion-icon item-start color="primary" [innerHTML]="numero.bandera"></ion-icon>
-      <ion-label [innerHTML]="numero.nombre"></ion-label>
-      <button ion-button icon-only clear item-end  (click)="llamada(numero.numero)">
+    <ion-item *ngFor="let contacto of _contactoProvider.ContactosColl">
+      <ion-icon item-start color="primary" [innerHTML]="contacto.flagCode"></ion-icon>
+      <ion-label [innerHTML]="contacto.countryName"></ion-label>
+      <button ion-button icon-only clear item-end  (click)="llamada(contacto.internationalPhone)">
         <ion-icon name="call"></ion-icon>
       </button>
-      <button ion-button icon-only clear item-end (click)="whatsapp(numero.whatsapp)">
+      <button ion-button icon-only clear item-end (click)="whatsapp(contacto.whatsApp)">
         <ion-icon name="logo-whatsapp"></ion-icon>
       </button>
     </ion-item>

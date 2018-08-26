@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Destinos</ion-title>
+    <ion-title>{{"Destinations_Page_Title" | translate}}</ion-title>
     <ion-buttons right>
       <button ion-button right (click)="contactar()">
         <ion-icon name="call"></ion-icon>
@@ -22,14 +22,14 @@
   <ion-content no-bounce >
 
     <ion-slides [pager]="true">
-      <ion-slide *ngFor="let slide of slides">
+      <ion-slide *ngFor="let slide of _destinationsProvider.HighlightedTours">
         <div>
           <img [src]="slide.image"/>
         </div>
       </ion-slide>
     </ion-slides>
 
-  <h3 class="titulo-tours" color="textHighlight">Most visited tours</h3>
+  <h3 class="titulo-tours" color="textHighlight">{{"Destinations_MainTitle" | translate}}</h3>
 
     <!--<<ion-grid class="grid-basic-page">
       <ion-row wrap>
@@ -47,13 +47,13 @@
     </ion-grid>-->
       <ion-grid >
         <ion-row>
-          <ion-col col-6 col-md-4 col-xl-3 *ngFor="let trip of trips" >
+          <ion-col col-6 col-md-4 col-xl-3 *ngFor="let trip of _destinationsProvider.MostVisitedTours" >
             <img  width="200" height="150"
                   style="object-fit: cover"
                   [src]="trip.image"
                   (click)="abrirEnlace(trip.url)"/>
-              <p [innerHTML]="trip.place"></p>
-              <h5 [innerHTML]="trip.tour"></h5>
+              <p [innerHTML]="trip.destination"></p>
+              <h5 [innerHTML]="trip.name"></h5>
           </ion-col>
         </ion-row>
       </ion-grid>

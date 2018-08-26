@@ -4,5 +4,11 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [
+    {
+      "path": "/api/v1/",
+      "proxyUrl": "http://rest.viajesolympus.com/api/v1/"
+    }
+  ]
 }

@@ -41,7 +41,7 @@ export class ItineraryPage {
   verMapa(){
     switch(this._userBookingService.userBooking.country['description']) {
       case 'Cancun': {
-        this.mapSrc = this.path + 'cancun_map.jpg';
+        this.mapSrc = this.path + 'cancunMap.jpg';
         this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
         console.log(this.mapSrc);
         break;

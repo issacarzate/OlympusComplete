@@ -12,15 +12,15 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding scroll="true">
   <ion-slides pager="true">
     <ion-slide *ngFor="let offer of offers">
       <img class="imagenCiudad" [src]="offer.imageLink" padding />
       <h2 class="slide-title"
           [innerHTML]="offer.title"
           ion-text color="textHighlight"></h2>
-      <p [innerHTML]="offer.subtitle"
-         ion-text color="textPrimary"></p>
+      <b><p [innerHTML]="offer.subtitle"
+         ion-text color="textPrimary"></p></b>
       <p [innerHTML]="offer.content"
          ion-text color="textPrimary"></p>
       <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.link)">I'm Interested</button>

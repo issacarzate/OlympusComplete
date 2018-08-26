@@ -14,10 +14,10 @@
 
 
 <ion-content  class="card-background-page" padding>
-  <div *ngFor="let images of cities | async">
-    <ion-card *ngFor="let image of images['images']; let i = index ">
-      <img class="imagenCiudad" [src]="image" (click)="elegirCiudad(images.cities[i])"/>
-      <div class="card-title" [innerHTML]="images.cities[i]"></div>
+  <div>
+    <ion-card *ngFor="let destination of _toursProvider.DestinationsColl">
+      <img class="imagenCiudad" [src]="destination.image" (click)="elegirCiudad(destination.id)"/>
+      <div class="card-title" [innerHTML]="destination.nombre" (click)="elegirCiudad(destination.id)"></div>
     </ion-card>
   </div>
 </ion-content>

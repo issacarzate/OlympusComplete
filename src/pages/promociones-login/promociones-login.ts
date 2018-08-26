@@ -24,8 +24,8 @@ import {CallNumber} from "@ionic-native/call-number";
   templateUrl: 'promociones-login.html',
 })
 export class PromocionesLoginPage {
-
-
+  isLoggedIn:boolean = false;
+  users: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afAuth: AngularFireAuth,
@@ -34,7 +34,16 @@ export class PromocionesLoginPage {
               public actionSheetCtrl: ActionSheetController,
               public usuarioProv: UsuarioProvider, private fb: Facebook, private platform: Platform) {
 
-
+    fb.getLoginStatus()
+      .then(res => {
+        console.log(res.status);
+        if(res.status === "connect") {
+          this.isLoggedIn = true;
+        } else {
+          this.isLoggedIn = false;
+        }
+      })
+      .catch(e => console.log(e));
 
   }
 
@@ -53,6 +62,30 @@ export class PromocionesLoginPage {
     });
   }
 
+  login() {
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+      .then(res => {
+        if(res.status === "connected") {
+          this.isLoggedIn = true;
+          this.getUserDetail(res.authResponse.userID);
+        } else {
+          this.isLoggedIn = false;
+        }
+      })
+      .catch(e => console.log('Error logging into Facebook', e));
+  }
+
+  getUserDetail(userid) {
+    this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"])
+      .then(res => {
+        console.log(res);
+        this.users = res;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
   signInWithFacebook() {
     if (this.platform.is('cordova')) {
       this.fb.login(['email', 'public_profile']).then(res => {
@@ -67,7 +100,7 @@ export class PromocionesLoginPage {
               user.uid,
               'facebook'
             );
-            this.navCtrl.push(PromocionesPage);
+            this.navCtrl.setRoot(PromocionesPage);
           }).catch(e => console.log("Error con el login" + JSON.stringify(e)));
       });
     }else{

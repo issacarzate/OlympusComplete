@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {CallNumber} from "@ionic-native/call-number";
 import {InAppBrowser, InAppBrowserOptions} from '@ionic-native/in-app-browser';
+import {ContactoProvider} from "../../providers/contacto/contacto";
 
 /**
  * Generated class for the ContactoPage page.
@@ -33,11 +34,9 @@ export class ContactoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private callNumber: CallNumber,
-              private  iab: InAppBrowser) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactoPage');
+              private  iab: InAppBrowser,
+              private _contactoProvider:ContactoProvider) {
+    this._contactoProvider.getContactosData();
   }
 
   llamada(numeroLlamada:string){

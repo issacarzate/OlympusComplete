@@ -3,7 +3,7 @@
   "I18N_EXAMPLE": "i18n example",
   "STRING_WITH_PARAMS": "String with a parameter: {{value}}",
   "INNER_CONTENT": "Inner content with a param: {{value}}",
-  "Preferences_Page_Tile": "Preferences",
+  "Preferences_Page_Tile": "Settings",
   "Preferences_Language_Selector_Tile": "Language",
   "Itinerary_Page_Title": "Access Reservation",
   "Itinerary_Main_Title": "My Itinerary",
@@ -11,5 +11,17 @@
   "Itineray_Lastname": "Last Name",
   "Itineray_Booking_Number": "Booking Number",
   "Itinerary_location": "Pickup Location",
-  "Itinerary_button": "Continue"
+  "Itinerary_button": "Continue",
+  "Tabs_Offers": "Offers",
+  "Tabs_Start": "Start",
+  "Tabs_Destinations": "Destinations",
+  "Tabs_Itinerary": "Itinerary",
+  "Tabs_Preferences": "Settings",
+  "Login_Offers_Page_Title": "Offers",
+  "Login_Offers_MainText": "Login with Facebook",
+  "Login_Offers_WelcomeMessage": "Login for an exclusive offer!",
+  "Destinations_Page_Title": "Latest Destinations",
+  "Destinations_MainTitle": "Most Visited Tours",
+  "Contact_Page_Title": "Contact",
+  "Contact_MainTitle": "Give Us a Call"
 }

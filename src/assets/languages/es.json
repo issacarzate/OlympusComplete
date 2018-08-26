@@ -11,5 +11,17 @@
   "Itineray_Lastname": "Apellido",
   "Itineray_Booking_Number": "Código de Reserva",
   "Itinerary_location": "Ubicación de Recogida",
-  "Itinerary_button": "Continuar"
+  "Itinerary_button": "Continuar",
+  "Tabs_Offers": "Ofertas",
+  "Tabs_Start": "Inicio",
+  "Tabs_Destinations": "Destinos",
+  "Tabs_Itinerary": "Itinerario",
+  "Tabs_Preferences": "Ajustes",
+  "Login_Offers_Page_Title": "Ofertas",
+  "Login_Offers_MainText": "Ingresa con Facebook",
+  "Login_Offers_WelcomeMessage": "Inicia sesión para que recibas una oferta exclusiva!",
+  "Destinations_Page_Title": "Nuevos Destinos",
+  "Destinations_MainTitle": "Tours Más Visitados",
+  "Contact_Page_Title": "Contacto",
+  "Contact_MainTitle": "Llámanos"
 }

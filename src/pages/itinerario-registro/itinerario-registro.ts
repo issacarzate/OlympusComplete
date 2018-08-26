@@ -4,7 +4,7 @@ import {ContactoPage} from "../contacto/contacto";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 //Native
-import { AgeValidator } from  '../../validators/age';
+//import { AgeValidator } from  '../../validators/age';
 import {WheelSelector} from "@ionic-native/wheel-selector";
 import {ItineraryPage} from "../itinerary/itinerary";
 
@@ -53,9 +53,9 @@ export class ItinerarioRegistroPage {
     this.slideOneForm = formBuilder.group({
       fullname: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       country: ['', Validators.required],
-      bookingnumber: ['', AgeValidator.isValid]
+      //bookingnumber: ['', AgeValidator.isValid]
+      bookingnumber: ['', Validators.required]
     });
-
   }
 
   next(){

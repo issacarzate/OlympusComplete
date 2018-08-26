@@ -24,6 +24,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UsuarioProvider } from '../providers/usuario/usuario';
 
+import {IonicImageViewerModule} from "ionic-img-viewer";
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -47,6 +49,8 @@ import {PhotoViewer} from "@ionic-native/photo-viewer";
 import { GeofenceProvider } from '../providers/geofence/geofence';
 import {Http} from "@angular/http";
 import {Globalization} from "@ionic-native/globalization";
+import { ToursProvider } from '../providers/tours/tours';
+import { ContactoProvider } from '../providers/contacto/contacto';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA2QCVwtr298TPcop6wK0gBShMylWnvWIc",
@@ -80,7 +84,13 @@ export function createTranslateLoader(http: Http){
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      platforms: {
+        android: {
+          activator: 'none'
+        }
+      }
+    }),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
@@ -88,6 +98,7 @@ export function createTranslateLoader(http: Http){
     HttpClientModule,
     AngularFirestoreModule,
     GlobalLanguagesPageModule,
+    IonicImageViewerModule,
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
@@ -120,15 +131,18 @@ export function createTranslateLoader(http: Http){
     InAppBrowser,
     SocialSharing,
     DestinationsProvider,
+    ToursProvider,
+    ContactoProvider,
     CallNumber,
     WheelSelector,
     YoutubeVideoPlayer,
     PhotoViewer,
     File,
-    //  Geofence,
+    //Geofence,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GeofenceProvider,
-    Globalization
+    Globalization,
+    ToursProvider
   ]
 })
 export class AppModule {}

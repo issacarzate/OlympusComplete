@@ -2,6 +2,7 @@
 //public http: HttpClient
 import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 /*
   Generated class for the DestinationsProvider provider.
@@ -19,8 +20,11 @@ export class DestinationsProvider {
 
   userBooking:Booking;
 
+  HighlightedTours : HighlightedToursRest[] = [];
+  MostVisitedTours : MostVisitedToursRest[] = [];
 
-  constructor(private afs:AngularFirestore) {
+  constructor(private afs:AngularFirestore,
+              private httpclient:HttpClient) {
 
     this.countriesCollection = this.afs.collection('countriesColleciton');
     //this.country = this.countriesCollection.valueChanges();
@@ -56,6 +60,63 @@ export class DestinationsProvider {
     this.userBooking = usrBooking;
   }
 
+  getHighlightedToursData() {
+    let hdrs = new HttpHeaders({ 'x-api-key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYW5nIjoyLCJpYXQiOjE1MzE4NTc1ODUsImV4cCI6MTU2MzM5MzU4NX0.tJN_m8n6sFD8to3JAXcVvdQ_WBH4xw8XUu-2a-HSCkM', 'Content-Type':  'application/json' });
+    let promise = new Promise((resolve, reject) => {
+      let apiURL = window.location.origin + '/api/v1/tours/highlighted';
+      this.httpclient.get(apiURL, {headers: hdrs})
+        .toPromise()
+        .then(
+          res => { // Success
+            this.HighlightedTours = res['tours'];
+            console.log(this.HighlightedTours);
+            resolve();
+          },
+          msg => { // Error
+            reject(msg);
+          }
+        ).catch(this.handleError);
+    });
+    return promise;
+  }
+
+  getMostVisitedToursData() {
+    let hdrs = new HttpHeaders({ 'x-api-key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsYW5nIjoyLCJpYXQiOjE1MzE4NTc1ODUsImV4cCI6MTU2MzM5MzU4NX0.tJN_m8n6sFD8to3JAXcVvdQ_WBH4xw8XUu-2a-HSCkM', 'Content-Type':  'application/json' });
+    let promise = new Promise((resolve, reject) => {
+      let apiURL = 'http://rest.viajesolympus.com/api/v1/tours/mostvisited';
+      this.httpclient.get(apiURL, {headers: hdrs})
+        .toPromise()
+        .then(
+          res => { // Success
+            this.MostVisitedTours = res['tours'];
+            console.log(this.MostVisitedTours);
+            resolve();
+          },
+          msg => { // Error
+            reject(msg);
+          }
+        ).catch(this.handleError);
+    });
+    return promise;
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
+
+}
+
+export interface HighlightedToursRest{
+  image: string;
+  title: string;
+}
+
+export interface MostVisitedToursRest{
+  image: string;
+  destination: string;
+  name: string;
+  url: string;
 }
 
 

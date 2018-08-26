@@ -14,9 +14,9 @@
 
 <ion-content class="card-background-page">
 
-  <ion-card *ngFor="let country of countries | async ">
-    <img [src]="country.image" (click)="elegirPais(country.name)"/>
-    <div class="card-title" [innerHTML]="country.name"></div>
+  <ion-card *ngFor="let country of _toursProvider.CountriesColl  ">
+    <img [src]="country.image" (click)="elegirPais(country.id)"/>
+    <div class="card-title" [innerHTML]="country.name" (click)="elegirPais(country.id)"></div>
   </ion-card>
 
 <!--

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {City, DestinationsProvider} from "../../providers/destinations/destinations";
-import {Observable} from "rxjs/Observable";
 import {DestinationsInfoPage} from "../destinations-info/destinations-info";
+import {ToursProvider} from "../../providers/tours/tours";
 
 /**
  * Generated class for the DestinationsCitiesPage page.
@@ -17,18 +16,13 @@ import {DestinationsInfoPage} from "../destinations-info/destinations-info";
   templateUrl: 'destinations-cities.html',
 })
 export class DestinationsCitiesPage {
-  cities: Observable<City[]>;
-  imagesDevice:any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _destinationsProvider:DestinationsProvider) {
-    this.cities = this._destinationsProvider.citiesCollection.valueChanges();
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private _toursProvider:ToursProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log(this.cities.forEach(images => console.log('hola')))
-  }
-  elegirCiudad(cityName:string){
-    this._destinationsProvider.getDbTours(cityName);
+  elegirCiudad(cityId:string){
+    this._toursProvider.getToursData(cityId);
     this.navCtrl.push(DestinationsInfoPage);
   }
 }

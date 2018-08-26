@@ -10,7 +10,7 @@
         <ion-icon name="call"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Promociones</ion-title>
+    <ion-title>{{"Login_Offers_Page_Title" | translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding text-center no-bounce class="vertical-align-content" >
@@ -24,8 +24,8 @@
 
     <ion-row>
       <ion-col>
-        <button (click)="signInWithFacebook()" ion-button color="light" icon-left block outline>
-          Log in with Facebook
+        <button (click)="login()" ion-button color="light" icon-left block outline>
+          {{'Login_Offers_MainText' | translate}}
         </button>
       </ion-col>
     </ion-row>
@@ -33,7 +33,7 @@
     <ion-row>
       <ion-col class="top-20">
         <h3>
-          Inicia sesión para que recibas una oferta exclusiva!
+          {{'Login_Offers_WelcomeMessage' | translate}}
         </h3>
       </ion-col>
     </ion-row>

@@ -13,27 +13,27 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-card *ngFor="let tour of tours | async">
+<ion-content>
+  <ion-card *ngFor="let tour of _toursProvider.ToursColl">
     <img class="imagenTour" [src]=tour.image>
 
     <ion-card-content>
       <ion-card-title class="titulo">
-        {{tour.title}}
+        {{tour.name}}
       </ion-card-title>
 
-      <p class="contenido">{{tour.content}}</p>
+      <p class="contenido">{{tour.description}}</p>
     </ion-card-content>
 
     <ion-row>
       <ion-col>
-        <button ion-button icon-start clear small (click)="playVideo(tour.videoId)">
+        <button *ngIf="tour.urlVideo" ion-button icon-start clear small (click)="playVideo(tour.urlVideo)">
           <ion-icon color="textHighlight" name="logo-youtube"></ion-icon>
           <div class="chips">Ver Video</div>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button icon-start clear small (click)="abrirEnlace(tour.buyLink)">
+        <button ion-button icon-start clear small (click)="abrirEnlace(tour.urlBuy)">
           <ion-icon color="textHighlight" name="logo-usd"></ion-icon>
           <div  class="chips">Comprar Ahora</div>
         </button>

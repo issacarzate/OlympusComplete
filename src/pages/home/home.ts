@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 import {ContactoPage} from "../contacto/contacto";
+import {DestinationsProvider} from "../../providers/destinations/destinations";
 
 @Component({
   selector: 'page-home',
@@ -76,8 +77,10 @@ export class HomePage {
     }
   ];
 
-  constructor(public navCtrl: NavController, private iab: InAppBrowser) {
-
+  constructor(public navCtrl: NavController, private iab: InAppBrowser,
+              private _destinationsProvider: DestinationsProvider) {
+    this._destinationsProvider.getHighlightedToursData();
+    this._destinationsProvider.getMostVisitedToursData();
   }
   contactar(){
     this.navCtrl.push(ContactoPage);
