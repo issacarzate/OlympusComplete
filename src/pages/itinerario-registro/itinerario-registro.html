@@ -24,7 +24,7 @@
       </ion-row>
     </ion-grid>
 
-    <form [formGroup]="slideOneForm">
+    <form [formGroup]="itineraryRegister">
 
       <ion-item class="mainTitle">
         {{ 'Itinerary_Main_Title' | translate }}
@@ -35,42 +35,59 @@
       </ion-item>
 
       <ion-item>
-        <ion-input formControlName="fullname" type="text" placeholder="{{'Itineray_Lastname' | translate }}" clearInput [class.invalid]="!slideOneForm.controls.fullname.valid && (slideOneForm.controls.fullname.dirty || submitAttempt)"></ion-input>
+        <ion-input (click)="pedirpaises()" formControlName="fullname" type="text" placeholder="{{'Itineray_Lastname' | translate }}" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)"></ion-input>
       </ion-item>
 
-      <!-- <ion-item>
-         <ion-label floating>Country</ion-label>
-         <ion-input formControlName="country" type="text" [class.invalid]="!slideOneForm.controls.country.valid && (slideOneForm.controls.bookingnumber.dirty || submitAttempt)"></ion-input>
-       </ion-item>
-
-       <ion-item>
-         <ion-label floating>Country</ion-label>
-         <ion-select formControlName="country">
-           <ion-option value="public" checked="true">Mexico</ion-option>
-           <ion-option value="friends">U.S.A</ion-option>
-           <ion-option value="private">Canada</ion-option>
-         </ion-select>
-       </ion-item>
-       -->
+      <br>
 
       <ion-item>
-        <ion-input formControlName="bookingnumber" type="number"  placeholder="{{'Itineray_Booking_Number' | translate }}" clearInput [class.invalid]="!slideOneForm.controls.bookingnumber.valid && (slideOneForm.controls.bookingnumber.dirty || submitAttempt)"></ion-input>
+        <ion-input formControlName="bookingnumber" type="text"  placeholder="{{'Itineray_Booking_Number' | translate }}" clearInput [class.invalid]="!itineraryRegister.controls.bookingnumber.valid && (itineraryRegister.controls.bookingnumber.dirty || submitAttempt)"></ion-input>
       </ion-item>
 
+      <br>
+
+      <ion-item>
+        <ion-label>País</ion-label>
+        <ion-select (click)="pedirpaises()" (ionCancel)="onCancelCountry()"   formControlName="country" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
+          <ion-option *ngFor="let country of _toursProvider.CountriesColl" (ionSelect)="selectCountry(country.id)" >{{country.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <br>
+
+      <ion-item *ngIf="control==1">
+        <ion-label>Ciudad</ion-label>
+        <ion-select (ionCancel)="onCancelCity()"  formControlName="destination" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
+          <ion-option *ngFor="let city of _toursProvider.DestinationsColl" (ionSelect)="selectCity(city.id)" >{{city.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
     </form>
+
+    <ion-item>
+      <ion-row>
+        <ion-col class="column">
+          <button ion-button round color="textHighlight" (click)="save()">{{'Itinerary_button' | translate}}</button>
+        </ion-col>
+      </ion-row>
+    </ion-item>
 
   </ion-list>
 
+  <!--
   <ion-grid>
+
     <ion-row>
-      <ion-col class="column">
+      <ion-col class="column" showWhen="ios,android">
         <button ion-button outline color="textHighlight" (click)="abrirWheelLugares()">{{'Itinerary_location' | translate}}</button>
       </ion-col>
     </ion-row>
+
     <ion-row>
       <ion-col class="column">
         <button ion-button round color="textHighlight" (click)="save()">{{'Itinerary_button' | translate}}</button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  -->
+
 </ion-content>

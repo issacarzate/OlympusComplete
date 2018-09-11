@@ -9,7 +9,6 @@ import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import {DestinationsPage} from "../destinations/destinations";
 import {GlobalLanguagesPage} from "../global-languages/global-languages";
-//import {ItineraryPage} from "../itinerary/itinerary";
 
 
 @Component({

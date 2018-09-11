@@ -4,6 +4,9 @@
   "STRING_WITH_PARAMS": "String with a parameter: {{value}}",
   "INNER_CONTENT": "Inner content with a param: {{value}}",
   "Preferences_Page_Tile": "Settings",
+  "Preferences_Terms_Section_Title": "Terms of Service",
+  "Preferences_TermsAndConditions_Title": "Terms and Conditions",
+  "Preferences_PrivacyPolicy_Title": "Privacy Policy",
   "Preferences_Language_Selector_Tile": "Language",
   "Itinerary_Page_Title": "Access Reservation",
   "Itinerary_Main_Title": "My Itinerary",
@@ -13,7 +16,7 @@
   "Itinerary_location": "Pickup Location",
   "Itinerary_button": "Continue",
   "Tabs_Offers": "Offers",
-  "Tabs_Start": "Start",
+  "Tabs_Start": "Home",
   "Tabs_Destinations": "Destinations",
   "Tabs_Itinerary": "Itinerary",
   "Tabs_Preferences": "Settings",
@@ -23,5 +26,7 @@
   "Destinations_Page_Title": "Latest Destinations",
   "Destinations_MainTitle": "Most Visited Tours",
   "Contact_Page_Title": "Contact",
-  "Contact_MainTitle": "Give Us a Call"
+  "Contact_MainTitle": "Give Us a Call",
+  "Promociones_Page_Title": "Offers",
+  "Promociones_Page_MainTitle": "I'm Intrested"
 }

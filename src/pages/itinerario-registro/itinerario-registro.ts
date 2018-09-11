@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, ToastController} from 'ionic-angular';
+import {LoadingController, NavController, ToastController} from 'ionic-angular';
 import {ContactoPage} from "../contacto/contacto";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -9,15 +9,11 @@ import {WheelSelector} from "@ionic-native/wheel-selector";
 import {ItineraryPage} from "../itinerary/itinerary";
 
 //Providers
-import {Booking, DestinationsProvider} from "../../providers/destinations/destinations";
 import {TranslateService} from "ng2-translate";
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
+import {userRegister, ItinerarioProvider} from "../../providers/itinerario/itinerario";
+import {ToursProvider} from "../../providers/tours/tours";
 
-/**
- * Generated class for the ItinerarioRegistroPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-itinerario-registro',
@@ -27,9 +23,10 @@ export class ItinerarioRegistroPage {
 
   @ViewChild('signupSlider') signupSlider: any;
 
-  slideOneForm: FormGroup;
-  userInfo:Booking;
-
+  itineraryRegister: FormGroup;
+  userInfo:userRegister;
+  control:number =0;
+  cityId:string;
   submitAttempt: boolean = false;
 
   pickUpPlaces = {
@@ -43,19 +40,38 @@ export class ItinerarioRegistroPage {
       {description: 'Punta Cana'}
     ]
   };
+  private loading: any;
 
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder,
               private toastCtrl: ToastController,
               private selector:WheelSelector,
-              private _userBookingProvider:DestinationsProvider,
-              translate: TranslateService) {
-
-    this.slideOneForm = formBuilder.group({
+              translate: TranslateService,
+              private DKP: DeviceKeyProvider,
+              private _itineraryProvider: ItinerarioProvider,
+              private _toursProvider:ToursProvider,
+              public loadingCtrl: LoadingController
+              ) {
+    this.itineraryRegister = formBuilder.group({
       fullname: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       country: ['', Validators.required],
-      //bookingnumber: ['', AgeValidator.isValid]
+      destination:['', Validators.required],
       bookingnumber: ['', Validators.required]
     });
+  }
+
+  ionViewWillEnter(){
+   if(this.DKP.keys.devicetoken == ""){
+      this.DKP.getDeviceApiKey().then(response => {
+        console.log(response + " Esta es mi respuesta...")
+        this._toursProvider.getCountriesData();
+      });
+    }
+  }
+
+  pedirpaises(){
+    if(this._toursProvider.CountriesColl.length <= 0) {
+      this._toursProvider.getCountriesData();
+    }
   }
 
   next(){
@@ -67,9 +83,9 @@ export class ItinerarioRegistroPage {
   }
 
   save(){
+    this.itineraryRegister.patchValue({destination: this.cityId});
     this.submitAttempt = true;
-
-    if(!this.slideOneForm.valid){
+    if(!this.itineraryRegister.valid){
       // this.signupSlider.slideTo(0);
       let toast = this.toastCtrl.create({
         message: 'Complete form data',
@@ -85,16 +101,57 @@ export class ItinerarioRegistroPage {
       toast.present();
     }
     else {
-      console.log("success!");
-      //console.log(this.slideOneForm.value);
-      this.userInfo = this.slideOneForm.value;
+      if(this.DKP.keys.lang == 1){
+         this.loading = this.loadingCtrl.create({
+          content: 'Verificando Información...'
+        });
+        this.loading.present().then();
+      }
+      if(this.DKP.keys.lang == 2){
+         this.loading = this.loadingCtrl.create({
+          content: 'Verifing info...'
+        });
+        this.loading.present().then();
+      }
+      console.log("Tengo la info del usuraio la voy a verificar!");
+      this.userInfo = this.itineraryRegister.value;
       console.log(this.userInfo);
-      this._userBookingProvider.addUserBookingService(this.userInfo);
-      console.log(this.userInfo.fullname);
-
-      //this._userBookingProvider.addUserBooking(this.slideOneForm.value);
-      this.navCtrl.push(ItineraryPage);
+      this._itineraryProvider.addUserBookingService(this.userInfo);
+      this._itineraryProvider.getItineraryData(this._itineraryProvider.userBooking.fullname, this._itineraryProvider.userBooking.bookingnumber, this._itineraryProvider.userBooking.destination).then(
+        response => {
+          console.log("Ya recibi respuesta exitosa!");
+          if (this._itineraryProvider.Itinerary.arrival_flight) {
+            this.loading.dismissAll();
+            this.navCtrl.push(ItineraryPage);
+          }
+          if (!this._itineraryProvider.Itinerary.arrival_flight) {
+            this.loading.dismissAll();
+            }
+          }
+      );
     }
+  }
+
+  selectCountry(country:string){
+    console.log(country);
+    this._toursProvider.getDestinationsData(country);
+    this.control = 1;
+  }
+
+  selectCity(id:string){
+    this.cityId=id;
+    console.log(id);
+  }
+
+  selectOk(country:string){
+    console.log("OK OK OK " + country);
+  }
+
+  onCancelCountry(){
+    this.control = 0;
+  }
+  onCancelCity(){
+    this.control = 1;
   }
 
   abrirWheelLugares(){
@@ -110,7 +167,7 @@ export class ItinerarioRegistroPage {
       ]
     }).then(result => {
       let msg = `Selected ${result[0].description}`;
-      this.slideOneForm.controls['country'].setValue(result[0]);
+      this.itineraryRegister.controls['country'].setValue(result[0]);
       let toast = this.toastCtrl.create({
         message: msg,
         duration: 4000

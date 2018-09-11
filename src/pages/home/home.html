@@ -24,7 +24,7 @@
     <ion-slides [pager]="true">
       <ion-slide *ngFor="let slide of _destinationsProvider.HighlightedTours">
         <div>
-          <img [src]="slide.image"/>
+          <img [src]="slide.imageUrl"/>
         </div>
       </ion-slide>
     </ion-slides>
@@ -50,8 +50,8 @@
           <ion-col col-6 col-md-4 col-xl-3 *ngFor="let trip of _destinationsProvider.MostVisitedTours" >
             <img  width="200" height="150"
                   style="object-fit: cover"
-                  [src]="trip.image"
-                  (click)="abrirEnlace(trip.url)"/>
+                  [src]="trip.imageUrl"
+                  (click)="abrirEnlace(trip.tourURL)"/>
               <p [innerHTML]="trip.destination"></p>
               <h5 [innerHTML]="trip.name"></h5>
           </ion-col>

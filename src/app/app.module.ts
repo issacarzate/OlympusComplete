@@ -39,18 +39,21 @@ import {CallNumber} from "@ionic-native/call-number";
 import {WheelSelector} from "@ionic-native/wheel-selector";
 import {YoutubeVideoPlayer} from "@ionic-native/youtube-video-player";
 import { File } from '@ionic-native/file';
-//import { Geofence } from '@ionic-native/geofence';
+import { HTTP } from '@ionic-native/http';
 
 
 //Providers
 import { DestinationsProvider } from '../providers/destinations/destinations';
 import { HttpClientModule } from "@angular/common/http";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
-import { GeofenceProvider } from '../providers/geofence/geofence';
 import {Http} from "@angular/http";
 import {Globalization} from "@ionic-native/globalization";
 import { ToursProvider } from '../providers/tours/tours';
 import { ContactoProvider } from '../providers/contacto/contacto';
+import { DeviceKeyProvider } from '../providers/device-key/device-key';
+import { ItinerarioProvider } from '../providers/itinerario/itinerario';
+import { SessionsProvider } from '../providers/sessions/sessions';
+import { PromocionesProvider } from '../providers/promociones/promociones';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA2QCVwtr298TPcop6wK0gBShMylWnvWIc",
@@ -127,22 +130,24 @@ export function createTranslateLoader(http: Http){
     AngularFireDatabase,
     Facebook,
     IonicStorageModule,
+    ToursProvider,
+    DeviceKeyProvider,
     UsuarioProvider,
+    ItinerarioProvider,
     InAppBrowser,
     SocialSharing,
     DestinationsProvider,
-    ToursProvider,
     ContactoProvider,
     CallNumber,
     WheelSelector,
     YoutubeVideoPlayer,
     PhotoViewer,
     File,
-    //Geofence,
+    HTTP,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GeofenceProvider,
     Globalization,
-    ToursProvider
+    SessionsProvider,
+    PromocionesProvider
   ]
 })
 export class AppModule {}

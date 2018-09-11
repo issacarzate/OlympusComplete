@@ -3,6 +3,8 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {CallNumber} from "@ionic-native/call-number";
 import {InAppBrowser, InAppBrowserOptions} from '@ionic-native/in-app-browser';
 import {ContactoProvider} from "../../providers/contacto/contacto";
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
+import {ItinerarioProvider} from "../../providers/itinerario/itinerario";
 
 /**
  * Generated class for the ContactoPage page.
@@ -35,8 +37,24 @@ export class ContactoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private callNumber: CallNumber,
               private  iab: InAppBrowser,
-              private _contactoProvider:ContactoProvider) {
+              private _contactoProvider:ContactoProvider,
+              private DKP: DeviceKeyProvider,
+              private _itineraryProvider: ItinerarioProvider) {
+   // this._contactoProvider.getContactosData().catch((err:any) => console.log(err.toString()));;
+  }
+
+  ionViewWillEnter(){
+    if(this.DKP.keys.devicetoken == ""){
+      this.DKP.getDeviceApiKey();
+    }
+  }
+
+  ionViewDidLoad(){
     this._contactoProvider.getContactosData();
+  }
+
+  ionViewDidEnter(){
+    if(this.DKP.chaeckLan())this._contactoProvider.getContactosData();
   }
 
   llamada(numeroLlamada:string){

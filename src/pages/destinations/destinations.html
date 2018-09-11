@@ -1,4 +1,4 @@
-2<ion-header>
+<ion-header>
 
   <ion-navbar>
     <ion-title>Destinos</ion-title>
@@ -15,28 +15,8 @@
 <ion-content class="card-background-page">
 
   <ion-card *ngFor="let country of _toursProvider.CountriesColl  ">
-    <img [src]="country.image" (click)="elegirPais(country.id)"/>
+    <img [src]="country.imageUrl" (click)="elegirPais(country.id)"/>
     <div class="card-title" [innerHTML]="country.name" (click)="elegirPais(country.id)"></div>
   </ion-card>
-
-<!--
-  <ion-card>
-    <img src="assets/tours/card-amsterdam.png"/>
-    <div class="card-title">Amsterdam</div>
-    <div class="card-subtitle">64 Listings</div>
-  </ion-card>
-
-  <ion-card>
-    <img src="assets/tours/card-sf.png"/>
-    <div class="card-title">San Francisco</div>
-    <div class="card-subtitle">72 Listings</div>
-  </ion-card>
-
-  <ion-card>
-    <img src="assets/tours/card-madison.png"/>
-    <div class="card-title">Madison</div>
-    <div class="card-subtitle">28 Listings</div>
-  </ion-card>
-  -->
 
 </ion-content>

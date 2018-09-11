@@ -3,8 +3,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 //import {AirportMapPage} from "../airport-map/airport-map";
 
 //Native
-import {DestinationsProvider} from "../../providers/destinations/destinations";
 import {AirportMapPage} from "../airport-map/airport-map";
+import {ItinerarioProvider} from "../../providers/itinerario/itinerario";
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 
 /**
@@ -19,16 +20,43 @@ import {AirportMapPage} from "../airport-map/airport-map";
   selector: 'page-itinerary',
   templateUrl: 'itinerary.html',
 })
+
 export class ItineraryPage {
   mapSrc:string = '';
   path:string='assets/maps/';
+  mes:string;
+  ida:string;
+  regreso:string;
+
+  journeyDate = new Date(this._itineraryProvider.Itinerary.arrival_date);
+  leaveDate = new Date(this._itineraryProvider.Itinerary.departure_date)
+
+
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private _userBookingService:DestinationsProvider) {
+              private _itineraryProvider: ItinerarioProvider,
+              private DKP:DeviceKeyProvider) {
   }
 
   ionViewDidLoad() {
+    var optionsMonth = {month: 'short'};
+    var optionsDateEn = { day: 'numeric', month: 'long', year: 'numeric' };
+    var optionsDateEs = { month: 'short', day: 'numeric', year: 'numeric' };
+    if(this.DKP.keys.lang == 1) {
+      this.mes = this.journeyDate.toLocaleDateString('es-ES', optionsMonth);
+      this.ida = this.journeyDate.toLocaleDateString('es-ES', optionsDateEs)
+      this.regreso = this.leaveDate.toLocaleDateString('es-ES', optionsDateEs)
+
+    }
+    if(this.DKP.keys.lang == 2) {
+      this.mes = this.journeyDate.toLocaleDateString('en-US', optionsMonth);
+      this.ida = this.journeyDate.toLocaleDateString('en-US', optionsDateEn)
+      this.regreso = this.leaveDate.toLocaleDateString('en-US', optionsDateEn)
+
+    }
+    console.log(this.journeyDate);
     //console.log('Esta eeeees ' + this._userBookingService.userBooking.country['description'] + 'mas.. ' + this._userBookingService.userBooking.fullname);
   }
 
@@ -39,8 +67,8 @@ export class ItineraryPage {
 
 
   verMapa(){
-    switch(this._userBookingService.userBooking.country['description']) {
-      case 'Cancun': {
+    switch(this._itineraryProvider.userBooking.destination) {
+      case '5': {
         this.mapSrc = this.path + 'cancunMap.jpg';
         this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
         console.log(this.mapSrc);

@@ -17,6 +17,9 @@ import {ToursProvider} from "../../providers/tours/tours";
   templateUrl: 'destinations-info.html',
 })
 export class DestinationsInfoPage {
+
+
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private youtube: YoutubeVideoPlayer,

@@ -1,6 +1,9 @@
 page-promociones-login {
-  ion-content{
-    background: #3b5998 !important;
+  .bg-white{
+    background-color: white;
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
   }
   h3{
     color: white ;
@@ -13,5 +16,38 @@ page-promociones-login {
     display: flex!important;
     align-content: center!important;
     align-items: center!important;
+    background: #3b5998 !important;
+  }
+
+  .imagenCiudad {
+    width:100%;
+    height:100%;
+    object-fit: cover;
+  }
+  ion-slide.swiper-slide {
+    align-items: flex-start;
+  }
+  .swiper-pagination-bullet {
+    background: map-get($colors, textPrimary);
+    opacity: 0.8;
+  }
+
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: map-get($colors, textHighlight);
+  }
+  ion-slide{
+    overflow: auto;
+    bottom: 4%;
+  }
+
+  .slide-zoom {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 5px 10px;
   }
 }

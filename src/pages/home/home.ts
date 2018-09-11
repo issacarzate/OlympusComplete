@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 import {ContactoPage} from "../contacto/contacto";
 import {DestinationsProvider} from "../../providers/destinations/destinations";
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 @Component({
   selector: 'page-home',
@@ -78,13 +79,33 @@ export class HomePage {
   ];
 
   constructor(public navCtrl: NavController, private iab: InAppBrowser,
-              private _destinationsProvider: DestinationsProvider) {
+              private _destinationsProvider: DestinationsProvider,private DKP: DeviceKeyProvider) {
+
+  }
+
+  ionViewWillEnter(){
+    if(this.DKP.keys.devicetoken == ""){
+      this.DKP.getDeviceApiKey();
+    }
+  }
+
+  ionViewDidLoad(){
     this._destinationsProvider.getHighlightedToursData();
     this._destinationsProvider.getMostVisitedToursData();
   }
+
+  ionViewDidEnter(){
+    if(this.DKP.chaeckLan()){
+      this._destinationsProvider.getHighlightedToursData();
+      this._destinationsProvider.getMostVisitedToursData();
+    }
+  }
+
   contactar(){
     this.navCtrl.push(ContactoPage);
   }
+
+
 
   abrirEnlace(enlace:string){
     //Opciones para abrir el link

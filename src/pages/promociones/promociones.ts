@@ -54,7 +54,7 @@ export class PromocionesPage {
   }
 
   signOut() {
-    this.afAuth.auth.signOut();
+    //this.afAuth.auth.signOut();
     this.navCtrl.setRoot(PromocionesLoginPage);
   }
 

@@ -4,6 +4,9 @@
   "STRING_WITH_PARAMS": "Cadena con parametro: {{value}}",
   "INNER_CONTENT": "Contenido interno con parametro: {{value}}",
   "Preferences_Page_Tile": "Preferencias",
+  "Preferences_Terms_Section_Title": "Términos de Servicio",
+  "Preferences_TermsAndConditions_Title": "Términos y Condiciones",
+  "Preferences_PrivacyPolicy_Title": "Política de Privacidad",
   "Preferences_Language_Selector_Tile": "Idioma",
   "Itinerary_Page_Title": "Acceder a Reservación",
   "Itinerary_Main_Title": "Mi Itinerario",
@@ -23,5 +26,7 @@
   "Destinations_Page_Title": "Nuevos Destinos",
   "Destinations_MainTitle": "Tours Más Visitados",
   "Contact_Page_Title": "Contacto",
-  "Contact_MainTitle": "Llámanos"
+  "Contact_MainTitle": "Llámanos",
+  "Promociones_Page_Title": "Promociones",
+  "Promociones_Page_MainTitle": "Me Interesa"
 }

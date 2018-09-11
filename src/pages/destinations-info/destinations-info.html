@@ -15,14 +15,14 @@
 
 <ion-content>
   <ion-card *ngFor="let tour of _toursProvider.ToursColl">
-    <img class="imagenTour" [src]=tour.image>
+    <img class="imagenTour" [src]=tour.imageUrl>
 
     <ion-card-content>
       <ion-card-title class="titulo">
         {{tour.name}}
       </ion-card-title>
 
-      <p class="contenido">{{tour.description}}</p>
+      <p class="contenido">{{tour.descripcion}}</p>
     </ion-card-content>
 
     <ion-row>
@@ -33,7 +33,7 @@
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button icon-start clear small (click)="abrirEnlace(tour.urlBuy)">
+        <button ion-button icon-start clear small (click)="abrirEnlace(tour.tour_url)">
           <ion-icon color="textHighlight" name="logo-usd"></ion-icon>
           <div  class="chips">Comprar Ahora</div>
         </button>

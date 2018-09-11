@@ -20,12 +20,12 @@
     </ion-list-header>
 
     <ion-item *ngFor="let contacto of _contactoProvider.ContactosColl">
-      <ion-icon item-start color="primary" [innerHTML]="contacto.flagCode"></ion-icon>
-      <ion-label [innerHTML]="contacto.countryName"></ion-label>
-      <button ion-button icon-only clear item-end  (click)="llamada(contacto.internationalPhone)">
+      <ion-icon item-start color="primary" [innerHTML]="contacto.code"></ion-icon>
+      <ion-label [innerHTML]="contacto.name"></ion-label>
+      <button ion-button icon-only clear item-end  (click)="llamada(contacto.international_phone)">
         <ion-icon name="call"></ion-icon>
       </button>
-      <button ion-button icon-only clear item-end (click)="whatsapp(contacto.whatsApp)">
+      <button ion-button icon-only clear item-end (click)="whatsapp(contacto.whatsapp)">
         <ion-icon name="logo-whatsapp"></ion-icon>
       </button>
     </ion-item>

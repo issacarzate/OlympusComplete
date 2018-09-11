@@ -17,52 +17,44 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col>
+      <ion-col col-4>
         <ion-card class="dateCard">
           <ion-card-content class="month">
-            oct
+            {{_itineraryProvider.Itinerary.arrival_date}}
           </ion-card-content>
           <ion-card-header class="day">
-            10
+            {{_itineraryProvider.Itinerary.arrival_date }}
           </ion-card-header>
         </ion-card>
       </ion-col>
-      <ion-col class="colEvents">
+      <ion-col class="colEvents" col-8>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your Flight is schedule for
+            Your are:
           </ion-card-content>
           <ion-card-content class="cardContent">
-            October 19 at 10 am.
+            {{_itineraryProvider.Itinerary.reservation}}
           </ion-card-content>
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your Flight is schedule for
+            Your departure flight is schedule for:
           </ion-card-content>
           <ion-card-content class="cardContent">
-            October 19 at 10 am.
+           {{_itineraryProvider.Itinerary.arrival_date}}
           </ion-card-content>
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your Flight is schedule for
+            Your leave on:
           </ion-card-content>
           <ion-card-content class="cardContent">
-            October 19 at 10 am.
-          </ion-card-content>
-        </ion-card>
-        <ion-card>
-          <ion-card-content class="cardInstruction">
-            Your Flight is schedule for
-          </ion-card-content>
-          <ion-card-content class="cardContent">
-            October 19 at 10 am.
+            {{_itineraryProvider.Itinerary.departure_date}}
           </ion-card-content>
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstructionMap">
-            Airport Arrival Quick Guide
+            Airport Arrival Guide
           </ion-card-content>
           <ion-list>
             <button ion-item class="cardMap" (click)="verMapa()">

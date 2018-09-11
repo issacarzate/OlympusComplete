@@ -16,7 +16,7 @@
 <ion-content  class="card-background-page" padding>
   <div>
     <ion-card *ngFor="let destination of _toursProvider.DestinationsColl">
-      <img class="imagenCiudad" [src]="destination.image" (click)="elegirCiudad(destination.id)"/>
+      <img class="imagenCiudad" [src]="destination.imageUrl" (click)="elegirCiudad(destination.id)"/>
       <div class="card-title" [innerHTML]="destination.nombre" (click)="elegirCiudad(destination.id)"></div>
     </ion-card>
   </div>

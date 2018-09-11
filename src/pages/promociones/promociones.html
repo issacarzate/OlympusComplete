@@ -6,7 +6,7 @@
         <ion-icon name="contact"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Promociones</ion-title>
+    <ion-title>{{'Promociones_Page_Title' | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -23,7 +23,7 @@
          ion-text color="textPrimary"></p></b>
       <p [innerHTML]="offer.content"
          ion-text color="textPrimary"></p>
-      <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.link)">I'm Interested</button>
+      <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.link)">{{'Promociones_Page_MainTitle' | translate}}</button>
     </ion-slide>
   </ion-slides>
 

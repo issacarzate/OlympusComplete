@@ -14,3 +14,27 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+// Custom icons
+// Overriding the ion-icon behavior
+// All custom icons will start with "appname-" prefix
+
+ion-icon {
+  &[class*="olympusIcons-"] {
+    // Instead of using the font-based icons
+    // We're applying SVG masks
+    mask-size: contain;
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+    background: currentColor;
+    width: 1em;
+    height: 1em;
+  }
+  // custom icons
+  &[class*="olympusIcons-destinations"] {
+    mask-image: url(../assets/icons/toursIcon.svg);
+    .tab-button[aria-selected=true] & {
+      mask-image: url(../assets/icons/address-book-regular.svg);
+    }
+  }
+}
+

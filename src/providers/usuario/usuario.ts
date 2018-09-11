@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UsuarioProvider {
 
-  usuario: any = {};
+  usuario: Credenciales = {};
 
   constructor() {
     console.log('Hello UsuarioProvider Provider');
@@ -24,6 +24,7 @@ export class UsuarioProvider {
     this.usuario.imagen=imagen;
     this.usuario.uid=uid;
     this.usuario.provider=provider;
+    console.log(this.usuario);
   }
 
 }

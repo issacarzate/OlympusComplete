@@ -1,15 +1,7 @@
-<!--
-  Generated template for the GlobalLanguagesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
     <ion-title> {{'Preferences_Page_Tile' | translate}} </ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -21,6 +13,17 @@
         <ion-label>{{lang.name}}</ion-label>
         <ion-radio [value]="lang.code"></ion-radio>
       </ion-item>
+      <ion-item-divider color="light"> {{'Preferences_Terms_Section_Title' | translate}} </ion-item-divider>
+      <button ion-item (click)="abrirEnlace(this.politicas[0]['liga'])">
+        <ion-icon name="book" item-start></ion-icon>
+        {{'Preferences_TermsAndConditions_Title' | translate}}
+        <ion-icon name="arrow-dropright" item-end showWhen="android"></ion-icon>
+      </button>
+      <button ion-item (click)="abrirEnlace(this.politicas[1]['liga'])">
+        <ion-icon name="finger-print" item-start></ion-icon>
+        {{'Preferences_PrivacyPolicy_Title' | translate}}
+        <ion-icon name="arrow-dropright" item-end showWhen="android"></ion-icon>
+      </button>
     </ion-item-group>
   </ion-list>
 

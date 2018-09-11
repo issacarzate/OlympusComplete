@@ -3,13 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ToursProvider } from "../../providers/tours/tours";
 import { DestinationsCitiesPage } from "../destinations-cities/destinations-cities";
 import { ContactoPage } from "../contacto/contacto";
-
-/**
- * Generated class for the DestinationsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 @IonicPage()
 @Component({
@@ -19,9 +13,23 @@ import { ContactoPage } from "../contacto/contacto";
 export class DestinationsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private _toursProvider:ToursProvider) {
+              private _toursProvider:ToursProvider,
+              private DKP: DeviceKeyProvider) {
+
+  }
+
+  ionViewWillEnter(){
+    if(this.DKP.keys.devicetoken == ""){
+      this.DKP.getDeviceApiKey();
+    }
+  }
+
+  ionViewDidLoad(){
     this._toursProvider.getCountriesData();
-    //this.countries = this._destinationsProvider.countriesCollection.valueChanges();
+  }
+
+  ionViewDidEnter(){
+    if(this.DKP.chaeckLan())this._toursProvider.getCountriesData();
   }
 
   elegirPais(countryId:string){

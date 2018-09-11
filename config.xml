@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="rh.olympus.tours" version="0.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="rh.olympus.tours" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Olympus Tours</name>
-    <description>Olymps Tours Infor App</description>
+    <description>Olymps Tours Info App</description>
     <author email="hola@rascahuele.mx" href="http://rascahuele.mx/">Rasca Huele</author>
     <content src="index.html" />
     <access origin="*" />
@@ -102,6 +102,10 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-globalization" spec="^1.11.0" />
     <allow-navigation href="http://192.168.1.71:8101" />
+    <plugin name="cordova-plugin-advanced-http" spec="^1.11.1" />
+    <allow-navigation href="http://192.168.100.10:8101" />
+    <allow-navigation href="http://169.254.10.47:8101" />
+    <allow-navigation href="http://10.48.245.142:8101" />
     <engine name="ios" spec="4.5.4" />
     <engine name="android" spec="6.4.0" />
 </widget>
