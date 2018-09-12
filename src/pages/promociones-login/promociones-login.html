@@ -27,7 +27,7 @@
 
 </ion-header>
 
-<ion-content   text-center padding scroll="true" class="vertical-align-content" [ngClass]="{'bg-white': changeColor}">
+<ion-content text-center scroll="true" class="vertical-align-content">
 
   <ion-grid *ngIf="!isLoggedIn; else facebookLogin">
     <ion-row>
@@ -54,7 +54,7 @@
 
   </ion-grid>
 
-  <ion-slides *ngIf="isLoggedIn; else facebookLogin" pager="true">
+  <ion-slides *ngIf="isLoggedIn; else facebookLogin" pager="true" >
     <ion-slide *ngFor="let offer of _promocionesProvider.PromocionesColl">
       <img class="imagenCiudad" [src]="offer.imageUrl" padding />
       <h2 class="slide-title"

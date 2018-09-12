@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import {ActionSheetController, NavController, NavParams} from 'ionic-angular';
+import {ActionSheetController, NavController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import * as firebase from 'firebase/app';
 import {UsuarioProvider} from "../../providers/usuario/usuario";
-import {PromocionesPage} from "../promociones/promociones";
 
-import { Platform } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
 import {CallNumber} from "@ionic-native/call-number";
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
@@ -15,12 +12,6 @@ import {ContactoPage} from "../contacto/contacto";
 import {PromocionesProvider} from "../../providers/promociones/promociones";
 import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
-/**
- * Generated class for the PromocionesLoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-promociones-login',
@@ -44,19 +35,18 @@ export class PromocionesLoginPage {
     }
   ];
 
-  isLoggedIn:boolean = false;
+  isLoggedIn:boolean;
   users: any;
-  changeColor = true;
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public storage: Storage,
+  constructor(private navCtrl: NavController,
+              private storage: Storage,
               private iab: InAppBrowser,
               private callNumber: CallNumber,
               private _promocionesProvider:PromocionesProvider,
               private DKP: DeviceKeyProvider,
-              public actionSheetCtrl: ActionSheetController,
-              public usuarioProv: UsuarioProvider, private fb: Facebook, private platform: Platform) {
+              private actionSheetCtrl: ActionSheetController,
+              private _usuarioProv: UsuarioProvider,
+              private fb: Facebook) {
 
 
 
@@ -71,20 +61,22 @@ export class PromocionesLoginPage {
       })
       .catch(e => console.log(e));
 
+    //this._usuarioProv.cargarUsuario("sdfsdf", "dfsdfsdfdf", "dfsdfsdfdsfdsfdfsd");
+
+
   }
 
   ionViewDidLoad(){
+    if(this._promocionesProvider.PromocionesColl.length<=0){
       this._promocionesProvider.getPromocionesData();
-
+    }
       this.storage.get('flogin').then(done => {
         if(!done) {
+          console.log("Este es fblogin" + done);
           this.storage.set('flogin', false);
-        }
-        if(done == true){
-          this.isLoggedIn = true;
-        }
-        if(done != true){
           this.isLoggedIn = false;
+        }else if(done){
+          this.isLoggedIn = true;
         }
       });
   }
@@ -101,9 +93,11 @@ export class PromocionesLoginPage {
           this.storage.get('flogin').then(done => {
             if(!done) {
               this.storage.set('flogin', true);
+              this.isLoggedIn = true;
             }
             if(done != true){
               this.storage.set('flogin', true);
+              this.isLoggedIn = true;
             }
           });
           this.getUserDetail(res.authResponse.userID);
@@ -123,8 +117,7 @@ export class PromocionesLoginPage {
           if(!done) {
             this.storage.set('flogin', false);
             this.isLoggedIn = false;
-          }
-          if(done == true){
+          }else if(done == true){
             this.storage.set('flogin', false);
             this.isLoggedIn = false;
           }
@@ -137,6 +130,10 @@ export class PromocionesLoginPage {
       .then(res => {
         console.log(res);
         this.users = res;
+        console.log("Este es el user....");
+        console.log(this.users);
+        console.log(res.name + res.email + res.id);
+        this._usuarioProv.cargarUsuario(this.users.name, this.users.email, this.users.id);
       })
       .catch(e => {
         console.log(e);
@@ -155,6 +152,8 @@ export class PromocionesLoginPage {
       });
   }
   */
+
+  /*
 
   signInWithFacebook() {
     if (this.platform.is('cordova')) {
@@ -186,6 +185,7 @@ export class PromocionesLoginPage {
       });
     }
   }
+  */
 
   callWhats(){
     this.navCtrl.push(ContactoPage);

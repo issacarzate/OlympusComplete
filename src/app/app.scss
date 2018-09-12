@@ -31,10 +31,27 @@ ion-icon {
   }
   // custom icons
   &[class*="olympusIcons-destinations"] {
-    mask-image: url(../assets/icons/toursIcon.svg);
+    mask-image: url(../assets/icons/icon_tours-noActivo.svg);
     .tab-button[aria-selected=true] & {
-      mask-image: url(../assets/icons/address-book-regular.svg);
+      mask-image: url(../assets/icons/icon_tours-Activo.svg);
     }
   }
+  &[class*="olympusIcons-itineray"] {
+    mask-image: url(../assets/icons/icon-itinerario-noActivo.svg);
+    .tab-button[aria-selected=true] & {
+      mask-image: url(../assets/icons/icon-itinerario-Activo.svg);
+    }
+  }
+  &[class*="olympusIcons-offers"] {
+    mask-image: url(../assets/icons/icon-promo-noActivo.svg);
+    .tab-button[aria-selected=true] & {
+      mask-image: url(../assets/icons/icon-promo-Activo.svg);
+    }
+  }&[class*="olympusIcons-settings"] {
+     mask-image: url(../assets/icons/icon-settings-noActivo.svg);
+     .tab-button[aria-selected=true] & {
+       mask-image: url(../assets/icons/icon-settings-Activo.svg);
+     }
+   }
 }
 

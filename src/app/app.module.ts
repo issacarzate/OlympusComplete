@@ -54,6 +54,7 @@ import { DeviceKeyProvider } from '../providers/device-key/device-key';
 import { ItinerarioProvider } from '../providers/itinerario/itinerario';
 import { SessionsProvider } from '../providers/sessions/sessions';
 import { PromocionesProvider } from '../providers/promociones/promociones';
+import { FcmProvider } from '../providers/fcm/fcm';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA2QCVwtr298TPcop6wK0gBShMylWnvWIc",
@@ -147,7 +148,8 @@ export function createTranslateLoader(http: Http){
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Globalization,
     SessionsProvider,
-    PromocionesProvider
+    PromocionesProvider,
+    FcmProvider
   ]
 })
 export class AppModule {}

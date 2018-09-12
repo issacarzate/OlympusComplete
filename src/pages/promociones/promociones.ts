@@ -36,8 +36,7 @@ export class PromocionesPage {
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private iab: InAppBrowser,
-              private afAuth: AngularFireAuth) {
+              private iab: InAppBrowser) {
   }
 
   ionViewDidLoad() {
@@ -54,7 +53,6 @@ export class PromocionesPage {
   }
 
   signOut() {
-    //this.afAuth.auth.signOut();
     this.navCtrl.setRoot(PromocionesLoginPage);
   }
 

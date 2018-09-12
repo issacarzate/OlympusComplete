@@ -1,9 +1,9 @@
 page-promociones-login {
+  ion-content{
+    background: #3b5998 !important;
+  }
   .bg-white{
     background-color: white;
-    display: flex!important;
-    align-content: center!important;
-    align-items: center!important;
   }
   h3{
     color: white ;
@@ -16,7 +16,6 @@ page-promociones-login {
     display: flex!important;
     align-content: center!important;
     align-items: center!important;
-    background: #3b5998 !important;
   }
 
   .imagenCiudad {
@@ -39,6 +38,9 @@ page-promociones-login {
   ion-slide{
     overflow: auto;
     bottom: 4%;
+  }
+  ion-slides{
+    background-color: white;
   }
 
   .slide-zoom {
