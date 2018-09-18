@@ -7,7 +7,13 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Itinerary</ion-title>
+    <ion-title>{{ "ItineraryP_Page_Title" | translate}}</ion-title>
+    <ion-buttons end>
+      <button  ion-button icon-end outline (click)="logout()">
+        {{ "ItineraryP_Logout_Button" | translate }}
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -20,17 +26,17 @@
       <ion-col col-4>
         <ion-card class="dateCard">
           <ion-card-content class="month">
-            {{_itineraryProvider.Itinerary.arrival_date}}
+            {{mesIda}}
           </ion-card-content>
           <ion-card-header class="day">
-            {{_itineraryProvider.Itinerary.arrival_date }}
+            {{diaIda}}
           </ion-card-header>
         </ion-card>
       </ion-col>
       <ion-col class="colEvents" col-8>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your are:
+            {{ "ItineraryP_Name" | translate}}
           </ion-card-content>
           <ion-card-content class="cardContent">
             {{_itineraryProvider.Itinerary.reservation}}
@@ -38,29 +44,28 @@
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your departure flight is schedule for:
+            {{ "ItinerayP_Arrival" | translate }}
           </ion-card-content>
           <ion-card-content class="cardContent">
-           {{_itineraryProvider.Itinerary.arrival_date}}
+           {{ida}}
           </ion-card-content>
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstruction">
-            Your leave on:
+            {{ "ItinerayP_Departure"| translate }}
           </ion-card-content>
           <ion-card-content class="cardContent">
-            {{_itineraryProvider.Itinerary.departure_date}}
+            {{regreso}}
           </ion-card-content>
         </ion-card>
         <ion-card>
           <ion-card-content class="cardInstructionMap">
-            Airport Arrival Guide
+            {{ "ItinerayP_Guide" | translate }}
           </ion-card-content>
           <ion-list>
             <button ion-item class="cardMap" (click)="verMapa()">
               <ion-icon name="cart" item-end></ion-icon>
-              <!--<ion-icon name="arrow-forward" item-end></ion-icon>-->
-              What's next?
+              {{ "ItinerayP_next" | translate }}
             </button>
           </ion-list>
         </ion-card>

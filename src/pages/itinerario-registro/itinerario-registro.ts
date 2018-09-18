@@ -1,18 +1,17 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {LoadingController, NavController, ToastController} from 'ionic-angular';
 import {ContactoPage} from "../contacto/contacto";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 //Native
-//import { AgeValidator } from  '../../validators/age';
-import {WheelSelector} from "@ionic-native/wheel-selector";
 import {ItineraryPage} from "../itinerary/itinerary";
 
 //Providers
 import {TranslateService} from "ng2-translate";
 import {DeviceKeyProvider} from "../../providers/device-key/device-key";
-import {userRegister, ItinerarioProvider} from "../../providers/itinerario/itinerario";
+import {UserRegisterForm, ItinerarioProvider} from "../../providers/itinerario/itinerario";
 import {ToursProvider} from "../../providers/tours/tours";
+import {Storage} from "@ionic/storage";
 
 
 @Component({
@@ -21,36 +20,31 @@ import {ToursProvider} from "../../providers/tours/tours";
 })
 export class ItinerarioRegistroPage {
 
-  @ViewChild('signupSlider') signupSlider: any;
 
   itineraryRegister: FormGroup;
-  userInfo:userRegister;
+  userInfo:UserRegisterForm;
   control:number =0;
   cityId:string;
   submitAttempt: boolean = false;
-
-  pickUpPlaces = {
-    places: [
-      {description: 'Cancun'},
-      {description: 'Puerto Vallarta'},
-      {description: 'Los Cabos'},
-      {description: 'Ciudad de Mexico'},
-      {description: 'Cozumel'},
-      {description: 'Liberia, San Jose'},
-      {description: 'Punta Cana'}
-    ]
-  };
+  controlUser:boolean = false;
   private loading: any;
+
+  mensajeToastUsuarioInc:string;
+  mensajeToastFormularioInvalido:string;
+  verificacionFormulario:string;
+
 
   constructor(public navCtrl: NavController, public formBuilder: FormBuilder,
               private toastCtrl: ToastController,
-              private selector:WheelSelector,
               translate: TranslateService,
               private DKP: DeviceKeyProvider,
+              private storage: Storage,
               private _itineraryProvider: ItinerarioProvider,
               private _toursProvider:ToursProvider,
               public loadingCtrl: LoadingController
               ) {
+
+    //Se declara el formulario en el constructor con cuatro campos y solo se enviaran tres, El nombre admite letras y espacios
     this.itineraryRegister = formBuilder.group({
       fullname: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       country: ['', Validators.required],
@@ -60,71 +54,94 @@ export class ItinerarioRegistroPage {
   }
 
   ionViewWillEnter(){
+    //Se pide un token en caso de no tenerlo aun.
    if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey().then(response => {
-        console.log(response + " Esta es mi respuesta...")
         this._toursProvider.getCountriesData();
       });
     }
+    //si ya se tiene un usuario guardado en almacenamiento nativo se dirije al itinerario
+    this.storage.get('iUser').then(done => {
+      if(done) {
+        console.log("Esto es lo que tenia guardado como usuarios...." + done);
+        this._itineraryProvider.Itinerary = JSON.parse(done);
+        this.navCtrl.setRoot(ItineraryPage);
+      }else if(!done){
+        this.controlUser = true;
+      }
+    });
+   //Validacion del idioma del usuario para mensajes de error
+   if(this.DKP.keys.lang==1){
+     this.mensajeToastFormularioInvalido = 'Completa los datos';
+     this.mensajeToastUsuarioInc = 'Usuario no encontrado';
+     this.verificacionFormulario = 'Verificando Información...';
+   }else{
+     //Mensajes en ingles
+     this.mensajeToastFormularioInvalido = 'Complete form data';
+     this.mensajeToastUsuarioInc = 'Not found user';
+     this.verificacionFormulario = 'Verifing info...';
+   }
   }
 
+  //Si no se tienen los paise se piden, en caso de tenerlo ya no hay otra peticion.
   pedirpaises(){
     if(this._toursProvider.CountriesColl.length <= 0) {
       this._toursProvider.getCountriesData();
     }
   }
 
-  next(){
-    this.signupSlider.slideNext();
-  }
-
-  prev(){
-    this.signupSlider.slidePrev();
-  }
 
   save(){
+    //Se sustituye el nombre del destino por el id para hacer la peticion.
     this.itineraryRegister.patchValue({destination: this.cityId});
+    //Se autoriza el envio del formulario con toda la informacion correcta
     this.submitAttempt = true;
+    //Si el fomrulario no es valido se le dice al usuario por medio de un toast.
     if(!this.itineraryRegister.valid){
-      // this.signupSlider.slideTo(0);
       let toast = this.toastCtrl.create({
-        message: 'Complete form data',
+        message: this.mensajeToastFormularioInvalido,
         duration: 3000,
         position: 'top',
         showCloseButton: true
       });
-
-      toast.onDidDismiss(() => {
-        console.log('Dismissed toast');
-      });
-
       toast.present();
     }
+    //Si el formulario es valido se indica al usuario que la peticion esta en proceso mediante un loadingCtrl.
     else {
-      if(this.DKP.keys.lang == 1){
          this.loading = this.loadingCtrl.create({
-          content: 'Verificando Información...'
+          content: this.verificacionFormulario
         });
         this.loading.present().then();
-      }
-      if(this.DKP.keys.lang == 2){
-         this.loading = this.loadingCtrl.create({
-          content: 'Verifing info...'
-        });
-        this.loading.present().then();
-      }
-      console.log("Tengo la info del usuraio la voy a verificar!");
+
       this.userInfo = this.itineraryRegister.value;
       console.log(this.userInfo);
       this._itineraryProvider.addUserBookingService(this.userInfo);
       this._itineraryProvider.getItineraryData(this._itineraryProvider.userBooking.fullname, this._itineraryProvider.userBooking.bookingnumber, this._itineraryProvider.userBooking.destination).then(
         response => {
-          console.log("Ya recibi respuesta exitosa!");
           if (this._itineraryProvider.Itinerary.arrival_flight) {
+            this.storage.get('iUser').then(done => {
+              if(!done) {
+                this.storage.set('iUser', JSON.stringify(this._itineraryProvider.Itinerary));
+              }else if(done){
+                this.storage.set('iUser', JSON.stringify(this._itineraryProvider.Itinerary));
+              }
+            });
             this.loading.dismissAll();
-            this.navCtrl.push(ItineraryPage);
+            this.navCtrl.setRoot(ItineraryPage);
           }
           if (!this._itineraryProvider.Itinerary.arrival_flight) {
+            let toast = this.toastCtrl.create({
+              message: this.mensajeToastUsuarioInc,
+              duration: 3000,
+              position: 'top',
+              showCloseButton: true
+            });
+
+            toast.onDidDismiss(() => {
+              console.log('Dismissed toast');
+            });
+
+            toast.present();
             this.loading.dismissAll();
             }
           }
@@ -132,15 +149,15 @@ export class ItinerarioRegistroPage {
     }
   }
 
+  //Al seleccionar un pais se muestra con el control el seleccionador de destinos y se piden los destinos de ese pais.
   selectCountry(country:string){
-    console.log(country);
     this._toursProvider.getDestinationsData(country);
     this.control = 1;
   }
 
+  //Al seleccionar una ciudad se guarda su id para anadir ese valor al formulario
   selectCity(id:string){
     this.cityId=id;
-    console.log(id);
   }
 
   selectOk(country:string){
@@ -150,31 +167,11 @@ export class ItinerarioRegistroPage {
   onCancelCountry(){
     this.control = 0;
   }
+
   onCancelCity(){
     this.control = 1;
   }
 
-  abrirWheelLugares(){
-    this.selector.show({
-      title: 'Select Pickup Place',
-      positiveButtonText: 'Choose',
-      negativeButtonText: 'Cancel',
-      items:[
-        this.pickUpPlaces.places
-      ],
-      defaultItems: [
-        {index:0, value:this.pickUpPlaces.places[1].description}
-      ]
-    }).then(result => {
-      let msg = `Selected ${result[0].description}`;
-      this.itineraryRegister.controls['country'].setValue(result[0]);
-      let toast = this.toastCtrl.create({
-        message: msg,
-        duration: 4000
-      });
-      toast.present();
-    });
-  }
   contactar(){
     this.navCtrl.push(ContactoPage);
   }

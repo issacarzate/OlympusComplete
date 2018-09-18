@@ -1,32 +1,32 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {DeviceKeyProvider} from "../device-key/device-key";
-import {HTTP} from "@ionic-native/http";
 import {Platform} from "ionic-angular";
 
-/*
-  Generated class for the PromocionesProvider provider.
+//Providers
+import {DeviceKeyProvider} from "../device-key/device-key";
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+//Native
+import {HTTP} from "@ionic-native/http";
+
 @Injectable()
 export class PromocionesProvider {
-  PromocionesColl : Promociones[] = [];
+  //Se guardan aqui las promociones.
+  PromocionesColl : PromocionesRest[] = [];
   ApiKey:string = this.DKP.keys.apikey;
 
   constructor(private httpclient: HttpClient,
+              //Revisamos en que plataforma estamos
               private plt: Platform,
+              //Maneajmos peticiones desde puerto nativo
               private http: HTTP,
               private DKP: DeviceKeyProvider) {
+    //Revisamos si tenemos token, si no lo volvemos a pedir
     if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey();
     }
   }
 
-  //http://rest.viajesolympus.com/api/v1/promotions?
-
-
+  //Obtenemos las promociones para android, iOS o Web.
   getPromocionesData() {
     console.log("Este es el device token " + this.DKP.keys.devicetoken);
     if(this.plt.is('cordova')){
@@ -75,7 +75,7 @@ export class PromocionesProvider {
   }
 
 
-
+//Manejamos errores
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
@@ -83,7 +83,8 @@ export class PromocionesProvider {
 
 }
 
-export interface Promociones {
+//Interfaz para manejo de datos de promociones.
+export interface PromocionesRest {
   imageUrl: string;
   title: string;
   description: string;

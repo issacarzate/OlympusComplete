@@ -7,7 +7,9 @@ import {DeviceKeyProvider} from "../device-key/device-key";
 
 @Injectable()
 export class ContactoProvider {
+  //Arreglo de contactos
   ContactosColl : ContactoRest[] = [];
+  //Api key por dispositivo
   ApiKey:string = this.DKP.keys.apikey;
 
   constructor(private httpclient: HttpClient,
@@ -15,12 +17,13 @@ export class ContactoProvider {
               private http: HTTP,
               private DKP: DeviceKeyProvider) {
 
+    //Si no hay apikey pedirlo de nuevo
     if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey();
     }
   }
 
-
+//Se obitenen los contactos para web o nativo
   getContactosData() {
     console.log("Este es el device token " + this.DKP.keys.devicetoken);
     if(this.plt.is('cordova')){
@@ -67,16 +70,20 @@ export class ContactoProvider {
     }
   }
 
+  //Manejo de errores
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
 }
 
+//Interfaz de contacto para prevenir problemas
 export interface ContactoRest {
   code: string;
   name: string;
   international_phone: string;
   domestic_phone: string;
   whatsapp: string;
+  default_whatsapp_msg: string;
+  emoji:string;
 }

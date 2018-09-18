@@ -1,72 +1,33 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
-//Cordova
+
+//Native
 import { HTTP } from '@ionic-native/http';
 import {Platform} from "ionic-angular";
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
+
+//Providers
 import {DeviceKeyProvider} from "../device-key/device-key";
 
 
-/*
-  Generated class for the DestinationsProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class DestinationsProvider {
 
-  countriesCollection: AngularFirestoreCollection<Country>;
-  citiesCollection: AngularFirestoreCollection<City>;
-  toursCollection: AngularFirestoreCollection<Tour>;
-
+//Sw guardan aqui los tours
   HighlightedTours : HighlightedToursRest[] = [];
   MostVisitedTours : MostVisitedToursRest[] = [];
 
-  DT:string = this.DKP.keys.devicetoken;
-  DL:number = this.DKP.keys.lang;
-  ApiKey:string = this.DKP.keys.apikey;
-
-
   constructor(private httpclient:HttpClient,
               private http: HTTP,
+              //Detectamos en que plataforma estamos con este componente
               private plt: Platform,
-              private DKP: DeviceKeyProvider,
-              private afs:AngularFirestore) {
+              private DKP: DeviceKeyProvider) {
 
-    this.countriesCollection = this.afs.collection('countriesColleciton');
-
-    //this.country = this.countriesCollection.valueChanges();
-
-    //FireDb.settings({ timestampsInSnapshots: true });
-    /*
-    db.collection('countriesColleciton').add({
-      name: 'Suecia',
-      image: 'assets/tours/card-amsterdam.png',
-      cities:['Cancun', 'Playa del Camren', 'Los Cabos']
-    }).then((data)=>{
-      console.log(data);
-    }).catch((error)=>{
-      console.log(error);
-    });*/
   }
 
-  getCountry(index:number){
-    //return this.country[index];
-  }
-  getDbCities(coutryName:string){
-    this.citiesCollection = this.afs.collection('Cities', ref => ref.where('country', '==', coutryName));
-
-    // this.countriesCollection = this.afs.collection('countriesColleciton'); //Referencia
-    // this.countries = this.countriesCollection.valueChanges(); //Observable de los datos
-    //return this.countries
-  }
-  getDbTours(coutryName:string) {
-    this.toursCollection = this.afs.collection('Tours', ref => ref.where('city', '==', coutryName));
-  }
-
+  //Obtencion de tours para banner de inicio para android y ios
   getHighlightedToursData() {
     if(this.plt.is('cordova')) {
       this.http.setDataSerializer('json');
@@ -117,6 +78,7 @@ export class DestinationsProvider {
     }
   }
 
+  //Obtener los tours para paginas de inicio para app web y nativo
   getMostVisitedToursData() {
     if(this.plt.is('cordova')) {
       this.http.setDataSerializer('json');
@@ -164,6 +126,7 @@ export class DestinationsProvider {
     }
   }
 
+  //Manejo de errores
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
@@ -171,45 +134,18 @@ export class DestinationsProvider {
 
 }
 
+//Interfaz de banner de tours de inicio
 export interface HighlightedToursRest{
   id: string;
   imageUrl: string;
   name: string;
 }
 
+//Interfaz de Tours principales de inicio
 export interface MostVisitedToursRest{
   image: string;
   destination: string;
   name: string;
   url: string;
-}
-
-export interface Country{
-  cities:string[];
-  image:string;
-  name:string;
-  id?: string;
-}
-export interface City{
-  cities:string[];
-  country:string;
-  images:string[];
-  id?: string;
-}
-export interface Tour{
-  city:string;
-  title:string,
-  buyLink:string;
-  content:string;
-  videoId:string;
-  image:string;
-  id?: string;
-}
-export interface Offer{
-  imageLink:string,
-  title:string,
-  subtitle:string,
-  content:string,
-  link:string
 }
 

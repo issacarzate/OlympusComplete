@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {CallNumber} from "@ionic-native/call-number";
+import {ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InAppBrowser, InAppBrowserOptions} from '@ionic-native/in-app-browser';
+
+//Proveedores
 import {ContactoProvider} from "../../providers/contacto/contacto";
 import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 import {ItinerarioProvider} from "../../providers/itinerario/itinerario";
 
-/**
- * Generated class for the ContactoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+//Native
+import {CallNumber} from "@ionic-native/call-number";
 
 @IonicPage()
 @Component({
@@ -19,55 +16,78 @@ import {ItinerarioProvider} from "../../providers/itinerario/itinerario";
   templateUrl: 'contacto.html',
 })
 export class ContactoPage {
-  numeros:any[] = [
-    {
-      bandera: "🇵🇹",
-      nombre: "Cancun Central",
-      numero: "5566778899",
-      whatsapp: "5219982314488"
-    },
-    {
-      bandera: "🇵🇷",
-      nombre: "San Juan",
-      numero: "55881122",
-      whatsapp: "5219982314488"
-    }
-  ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              private actionSheetCtrl:ActionSheetController,
               private callNumber: CallNumber,
               private  iab: InAppBrowser,
               private _contactoProvider:ContactoProvider,
-              private DKP: DeviceKeyProvider,
-              private _itineraryProvider: ItinerarioProvider) {
-   // this._contactoProvider.getContactosData().catch((err:any) => console.log(err.toString()));;
+              private DKP: DeviceKeyProvider) {
   }
 
+  //Si no hay token obtiene token antes de pedir contactos
   ionViewWillEnter(){
     if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey();
     }
   }
 
+  //Obitene los contactos
   ionViewDidLoad(){
     this._contactoProvider.getContactosData();
   }
 
+  //Revisa si cambio el idioma para perdir contactos de nuevo
   ionViewDidEnter(){
     if(this.DKP.chaeckLan())this._contactoProvider.getContactosData();
   }
 
-  llamada(numeroLlamada:string){
+  //Permite lanzar llamada con el numero recibido y escoger entre nacional e internacional
+  llamada(intPhone:string, domPhone:string){
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Give Us A Call',
+      buttons: [
+        {
+          text: 'Local',
+          handler: () => {
+            this.callNumber.callNumber(domPhone, true)
+              .then(res => console.log('Launched dialer!', res))
+              .catch(err => console.log('Error launching dialer', err));
+          }
+        },
+        {
+          text: 'International',
+          handler: () => {
+            this.callNumber.callNumber(intPhone, true)
+              .then(res => console.log('Launched dialer!', res))
+              .catch(err => console.log('Error launching dialer', err));
+            console.log('Archive clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+    //En caso de llamar solo al numero internacional
+    /*
     this.callNumber.callNumber(numeroLlamada, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
     console.log('Archive clicked');
+    */
   }
 
-  whatsapp(whatsNumero:string){
+  //Permite mandar whatsapp con mensaje y numero recibido recibido via ws
+  whatsapp(whatsNumero:string, whatsMensaje:string){
         const options: InAppBrowserOptions = {
           zoom: 'no'
         };
-        this.iab.create('https://api.whatsapp.com/send?phone='+whatsNumero+'&text=Necesito informes', '_self', options);
+        this.iab.create('https://api.whatsapp.com/send?phone=' + whatsNumero + '&text=' + whatsMensaje, '_self', options);
     }
 }

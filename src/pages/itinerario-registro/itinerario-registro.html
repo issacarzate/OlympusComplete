@@ -1,9 +1,9 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title *ngIf="controlUser">
       {{ 'Itinerary_Page_Title' | translate }}
     </ion-title>
-    <ion-buttons right>
+    <ion-buttons right *ngIf="controlUser">
       <button ion-button right (click)="contactar()">
         <ion-icon name="call"></ion-icon>
       </button>
@@ -11,10 +11,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content >
 
 
-  <ion-list no-lines>
+  <ion-list no-lines *ngIf="controlUser">
 
     <ion-grid>
       <ion-row>

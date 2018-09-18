@@ -6,7 +6,7 @@
       </button>
     </ion-buttons>
     <ion-buttons right>
-      <button ion-button right (click)="callWhats()">
+      <button ion-button right (click)="contactar()">
         <ion-icon name="call"></ion-icon>
       </button>
     </ion-buttons>
@@ -18,7 +18,8 @@
 
   <ion-navbar>
     <ion-buttons end>
-      <button ion-button end (click)="logout()">
+      <button  ion-button icon-end outline (click)="logout()">
+        {{ "Login_Offers_Logout_Button" | translate }}
         <ion-icon name="contact"></ion-icon>
       </button>
     </ion-buttons>

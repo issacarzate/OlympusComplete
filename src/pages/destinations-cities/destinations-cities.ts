@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import {DestinationsInfoPage} from "../destinations-info/destinations-info";
-import {ToursProvider} from "../../providers/tours/tours";
 
-/**
- * Generated class for the DestinationsCitiesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+//Providers
+import {ToursProvider} from "../../providers/tours/tours";
 
 @IonicPage()
 @Component({
@@ -17,12 +12,14 @@ import {ToursProvider} from "../../providers/tours/tours";
 })
 export class DestinationsCitiesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController,
               private _toursProvider:ToursProvider) {
   }
 
+  //Se sabe que si el usuario llego aqui ya se tiene token por lo que no hay verificacion. Se piden los destinos del pais que recibio el proveedor.
   elegirCiudad(cityId:string){
     this._toursProvider.getToursData(cityId);
     this.navCtrl.push(DestinationsInfoPage);
   }
+
 }

@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import {TabsPage} from "../tabs/tabs";
 
-
-/**
- * Generated class for the IntroPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -16,32 +9,46 @@ import {TabsPage} from "../tabs/tabs";
   templateUrl: 'intro.html',
 })
 export class IntroPage {
+  //Informacion para slides de introduccion
   slides:any[] = [
     {
       title: "Bienvenido!!!",
       description: "Esta <b>aplicación</b> hará tu viaje mucho más fácil!",
-      image: "assets/img/ica-slidebox-img-1.png",
+      image: "assets/intro/1_slides-intro-06.png",
     },
     {
-      title: "¿Qué hace por ti?",
-      description: "<b>Olympus Tours</b> quiere que tu viaje sea mas placentero",
-      image: "assets/img/ica-slidebox-img-2.png",
+      title: "Accede a toda tu información",
+      description: "<b>Olympus Tours</b> pone a tu disposición un mapa para tu llegada al aeropuerto",
+      image: "assets/intro/2_slides-intro_slide-bienvenida.png",
     },
     {
-      title: "¿Que hace esta app?",
-      description: "Esta aplicación nos ayudará a conocer más sobre el ciclo de tu viaje de inicio a fin",
-      image: "assets/img/ica-slidebox-img-3.png",
+      title: "No dejes de viajar",
+      description: "Aquí encontrarás las información sobre los viajes más relevantes",
+      image: "assets/intro/3_slides-intro_tours.png",
+    },
+    {
+      title: "Accede a beneficios exclusivos",
+      description: "Ingresa con tu facebook para recibir promociones únicas por usar esta App",
+      image: "assets/intro/4_slides-intro_promotions.png",
+    },
+    {
+      title: "Estás seguro",
+      description: "Consulta nuestra política de privacidad desde la sección de ajustes",
+      image: "assets/intro/5_slides-intro_settings.png",
+    },
+    {
+      title: "Siempre estamos para ti",
+      description: "En todas nuestras secciones podrás ponerte en contacto con nosotros para aclarar cualquier duda o adquirir un servicio",
+      image: "assets/intro/6_slides-intro_telefono.png",
     }
   ];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController) {
   }
 
-  ionViewDidLoad() {
-  console.log('ionViewDidLoad IntroPage');
-}
-navHome() {
+//Ir al contolador de pestanas principal del app
+  navHome() {
   this.navCtrl.setRoot(TabsPage);
 }
 

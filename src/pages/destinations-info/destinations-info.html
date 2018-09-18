@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Destinos</ion-title>
+    <ion-title>{{ "DestinationsInfo_Page_Title" | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -29,13 +29,13 @@
       <ion-col>
         <button *ngIf="tour.urlVideo" ion-button icon-start clear small (click)="playVideo(tour.urlVideo)">
           <ion-icon color="textHighlight" name="logo-youtube"></ion-icon>
-          <div class="chips">Ver Video</div>
+          <div class="chips">{{ "DestinationsInfo_WatchVideo" | translate}}</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-start clear small (click)="abrirEnlace(tour.tour_url)">
           <ion-icon color="textHighlight" name="logo-usd"></ion-icon>
-          <div  class="chips">Comprar Ahora</div>
+          <div  class="chips">{{ "DestinationsInfo_BuyNow" | translate}}</div>
         </button>
       </ion-col>
     </ion-row>

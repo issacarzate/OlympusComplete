@@ -36,10 +36,22 @@ ion-icon {
       mask-image: url(../assets/icons/icon_tours-Activo.svg);
     }
   }
+  &[class*="olympusIcons-inicio"] {
+    mask-image: url(../assets/icons/icono_inicio-noActivo.svg);
+    .tab-button[aria-selected=true] & {
+      mask-image: url(../assets/icons/icono_inicio-Activo.svg);
+    }
+  }
   &[class*="olympusIcons-itineray"] {
     mask-image: url(../assets/icons/icon-itinerario-noActivo.svg);
     .tab-button[aria-selected=true] & {
       mask-image: url(../assets/icons/icon-itinerario-Activo.svg);
+    }
+  }
+  &[class*="olympusIcons-home"] {
+    mask-image: url(../assets/icons/icono-Home_noActivo.svg);
+    .tab-button[aria-selected=true] & {
+      mask-image: url(../assets/icons/icono-Home_Activo.svg);
     }
   }
   &[class*="olympusIcons-offers"] {

@@ -40,6 +40,8 @@ import {WheelSelector} from "@ionic-native/wheel-selector";
 import {YoutubeVideoPlayer} from "@ionic-native/youtube-video-player";
 import { File } from '@ionic-native/file';
 import { HTTP } from '@ionic-native/http';
+import {LocalNotifications} from "@ionic-native/local-notifications";
+
 
 
 //Providers
@@ -52,19 +54,22 @@ import { ToursProvider } from '../providers/tours/tours';
 import { ContactoProvider } from '../providers/contacto/contacto';
 import { DeviceKeyProvider } from '../providers/device-key/device-key';
 import { ItinerarioProvider } from '../providers/itinerario/itinerario';
-import { SessionsProvider } from '../providers/sessions/sessions';
 import { PromocionesProvider } from '../providers/promociones/promociones';
 import { FcmProvider } from '../providers/fcm/fcm';
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyA2QCVwtr298TPcop6wK0gBShMylWnvWIc",
-  authDomain: "sendi-9f11f.firebaseapp.com",
-  databaseURL: "https://sendi-9f11f.firebaseio.com",
-  projectId: "sendi-9f11f",
-  storageBucket: "sendi-9f11f.appspot.com",
-  messagingSenderId: "238310976567"
+
+var config = {
+  apiKey: "AIzaSyAirYs6_nfZUfIGzQAg02K-8GCKbmUg7VA",
+  authDomain: "olympustours-68a74.firebaseapp.com",
+  databaseURL: "https://olympustours-68a74.firebaseio.com",
+  projectId: "olympustours-68a74",
+  storageBucket: "olympustours-68a74.appspot.com",
+  messagingSenderId: "183548698238"
 };
 //firebase.initializeApp(firebaseConfig);
+
+import {Firebase} from "@ionic-native/firebase";
+
 
 export function createTranslateLoader(http: Http){
   return new TranslateStaticLoader(http, 'assets/languages', '.json');
@@ -96,7 +101,7 @@ export function createTranslateLoader(http: Http){
       }
     }),
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     HttpClientModule,
@@ -140,6 +145,7 @@ export function createTranslateLoader(http: Http){
     DestinationsProvider,
     ContactoProvider,
     CallNumber,
+    LocalNotifications,
     WheelSelector,
     YoutubeVideoPlayer,
     PhotoViewer,
@@ -147,9 +153,9 @@ export function createTranslateLoader(http: Http){
     HTTP,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Globalization,
-    SessionsProvider,
     PromocionesProvider,
-    FcmProvider
+    FcmProvider,
+    Firebase
   ]
 })
 export class AppModule {}

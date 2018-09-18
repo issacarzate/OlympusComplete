@@ -1,29 +1,38 @@
 import 'rxjs/add/operator/map';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Injectable } from '@angular/core';
-import {HTTP} from "@ionic-native/http";
 import {Platform} from "ionic-angular";
+
+//Providers
 import {DeviceKeyProvider} from "../device-key/device-key";
 
+//Native
+import {HTTP} from "@ionic-native/http";
 
 @Injectable()
 export class ItinerarioProvider {
-  Itinerary : itinerary;
-  userBooking:userRegister;
+  Itinerary : ItineraryRest;
+  userBooking:UserRegisterForm;
 
   constructor(public httpclient: HttpClient,
+              //Se detecta plataforma
               private plt: Platform,
+              //Peticiones nativas para puerto permitido
               private http: HTTP,
               private DKP: DeviceKeyProvider) {
+
+    //Validamos si ya tenemos token, en caso de que no, se vuelve a pedir
     if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey();
     }
   }
 
-  addUserBookingService(usrBooking:userRegister){
+  //Servicio para obtener los daos ingresados para mandarlos a traves del ws
+  addUserBookingService(usrBooking:UserRegisterForm){
     this.userBooking = usrBooking;
   }
 
+  //Se obtienen los datos del usuarios, si es que existen desde olympus tours. Regresa una promesa.
   getItineraryData(name:string, booking:string, destination:string) {
     console.log("Este es el device token " + this.DKP.keys.devicetoken);
     if(this.plt.is('cordova')){
@@ -41,6 +50,7 @@ export class ItinerarioProvider {
           })
           .then(data => {
               this.Itinerary = JSON.parse(data.data)['itinerary'];
+              this.Itinerary.destination = destination;
               resolve();
             },
             msg => {
@@ -68,6 +78,7 @@ export class ItinerarioProvider {
           .then(
             res => { // Success
               this.Itinerary = res['itinerary'];
+              this.Itinerary.destination = destination;
               resolve();
             },
             msg => { // Error
@@ -86,7 +97,8 @@ export class ItinerarioProvider {
 
 }
 
-export interface itinerary{
+//Interfaz para el manejo de todos los datos del itinerario recibido
+export interface ItineraryRest{
   booking:string;
   reservation:string;
   adults:string;
@@ -95,9 +107,13 @@ export interface itinerary{
   arrival_flight:string;
   departure_date:string;
   departure_flight:string;
+  arrival_date_numeric: number;
+  departure_date_numeric: number;
+  destination:string;
 }
 
-export interface userRegister{
+//Interfaz para manejo de datos de la forma
+export interface UserRegisterForm{
   fullname:string,
   destination:string,
   bookingnumber:string

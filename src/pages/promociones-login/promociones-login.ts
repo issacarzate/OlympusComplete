@@ -1,79 +1,45 @@
 import { Component } from '@angular/core';
-import {ActionSheetController, NavController} from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
-import {UsuarioProvider} from "../../providers/usuario/usuario";
-
-import { Facebook } from '@ionic-native/facebook';
-import {CallNumber} from "@ionic-native/call-number";
-import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
-import {Offer} from "../../providers/destinations/destinations";
+import { NavController} from 'ionic-angular';
 import {ContactoPage} from "../contacto/contacto";
+
+//Providers
 import {PromocionesProvider} from "../../providers/promociones/promociones";
 import {DeviceKeyProvider} from "../../providers/device-key/device-key";
+import {UsuarioProvider} from "../../providers/usuario/usuario";
 
+//Native
+import { Facebook } from '@ionic-native/facebook';
+import { Storage } from '@ionic/storage';
+import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 
 @Component({
   selector: 'page-promociones-login',
   templateUrl: 'promociones-login.html',
 })
 export class PromocionesLoginPage {
-  offers:Offer[] = [
-    {
-      imageLink:"https://imagesmx-olympustours1.netdna-ssl.com/thumbnail.php?url=L2dhbGVyaWEvUFVOVEFDQU5BLVNXSU1XRE9MUEhJTlMxLTc3MFg0MDAuanBn&size=395x205",
-      title: "Sunset Cruise",
-      subtitle: "Los Cabos, Mexico",
-      content: "Make this an unforgettable vacation with a fun-filled, romantic sunset cruise! There’s a kind of magic on the air, a unique sensation felt when sailing as the sun sets in the Los Cabos coast, as the light reflects on the water and the buildings' windows along the Cabo San Lucas skyline, portraying a beautiful silhouette over The Arch, the most iconic spot of Cabo San Lucas, at the very edge of the peninsula. (Yes, that place you’ve seen in thousands of photos is real)",
-      link: "https://www.olympus-tours.com/tours/puerto-vallarta/marieta-island-boat"
-    },
-    {
-      imageLink:"https://imagesmx-olympustours1.netdna-ssl.com/thumbnail.php?url=L2dhbGVyaWEvTWFyaW5hcml1bTUuanBn&size=395x205",
-      title: "Marinarium Snorkeling",
-      subtitle: "La Romana",
-      content: "Marinarium invites you to discover the wonders of the reef and the marine life." ,
-      link: "https://www.olympus-tours.com/tours/la-romana/marinarium-snorkeling-romana"
-    }
-  ];
 
   isLoggedIn:boolean;
   users: any;
 
   constructor(private navCtrl: NavController,
+              //Plugin de storage nativo para guardar sesion
               private storage: Storage,
+              //Plugin navegador nativo para ver promociones
               private iab: InAppBrowser,
-              private callNumber: CallNumber,
-              private _promocionesProvider:PromocionesProvider,
               private DKP: DeviceKeyProvider,
-              private actionSheetCtrl: ActionSheetController,
               private _usuarioProv: UsuarioProvider,
+              private _promocionesProvider:PromocionesProvider,
+              //Plugin nativo facebook
               private fb: Facebook) {
-
-
-
-    fb.getLoginStatus()
-      .then(res => {
-        console.log(res.status);
-        if(res.status === "connect") {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      })
-      .catch(e => console.log(e));
-
-    //this._usuarioProv.cargarUsuario("sdfsdf", "dfsdfsdfdf", "dfsdfsdfdsfdsfdfsd");
-
-
   }
 
+  //Revisamos si ya esta logeado para que no lo vuelva hacer
   ionViewDidLoad(){
     if(this._promocionesProvider.PromocionesColl.length<=0){
       this._promocionesProvider.getPromocionesData();
     }
       this.storage.get('flogin').then(done => {
         if(!done) {
-          console.log("Este es fblogin" + done);
-          this.storage.set('flogin', false);
           this.isLoggedIn = false;
         }else if(done){
           this.isLoggedIn = true;
@@ -81,10 +47,12 @@ export class PromocionesLoginPage {
       });
   }
 
+  //Revisa si cambio el idioma para perdir promociones de nuevo
   ionViewDidEnter(){
     if(this.DKP.chaeckLan())this._promocionesProvider.getPromocionesData();
   }
 
+  //Hacemos peticion a facebook para autorizar la entrada a promociones
   login() {
     this.fb.login(['public_profile', 'user_friends', 'email'])
       .then(res => {
@@ -101,7 +69,6 @@ export class PromocionesLoginPage {
             }
           });
           this.getUserDetail(res.authResponse.userID);
-          console.log(res);
         } else {
           this.isLoggedIn = false;
         }
@@ -109,30 +76,28 @@ export class PromocionesLoginPage {
       .catch(e => console.log('Error logging into Facebook', e));
   }
 
+  //Se destruye la sesion del usuario
   logout() {
     this.fb.logout()
       .then( res => {
         this.isLoggedIn = false;
         this.storage.get('flogin').then(done => {
           if(!done) {
-            this.storage.set('flogin', false);
             this.isLoggedIn = false;
           }else if(done == true){
-            this.storage.set('flogin', false);
+            this.storage.remove('flogin');
             this.isLoggedIn = false;
           }
         });
       })
       .catch(e => console.log('Error logout from Facebook', e));
   }
+
+  //Se obtienen los datos que pedimos a facebook y se mandan a nuestro usuario
   getUserDetail(userid) {
     this.fb.api("/"+userid+"/?fields=id,email,name,picture,gender",["public_profile"])
       .then(res => {
-        console.log(res);
         this.users = res;
-        console.log("Este es el user....");
-        console.log(this.users);
-        console.log(res.name + res.email + res.id);
         this._usuarioProv.cargarUsuario(this.users.name, this.users.email, this.users.id);
       })
       .catch(e => {
@@ -140,54 +105,9 @@ export class PromocionesLoginPage {
       });
   }
 
-  /*
-  getUserDetail(userid) {
-    this.fb.api("/"+userid+"/?fields=id,age_range,email,name,picture,gender,location",["public_profile"])
-      .then(res => {
-        console.log(res);
-        this.users = res;
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-  */
 
-  /*
-
-  signInWithFacebook() {
-    if (this.platform.is('cordova')) {
-      this.fb.login(['email', 'public_profile']).then(res => {
-        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        firebase.auth().signInWithCredential(facebookCredential).then(
-          user => {
-            console.log(user);
-            this.usuarioProv.cargarUsuario(
-              user.displayName,
-              user.email,
-              user.photoURL,
-              user.uid,
-              'facebook'
-            );
-
-            this.storage.get('flogin').then(done => {
-              if(!done) {
-                this.storage.set('flogin', true);
-                this.navCtrl.setRoot(PromocionesPage);
-              }
-              if(done != true){
-                this.storage.set('flogin', true);
-                this.navCtrl.setRoot(PromocionesPage);
-              }
-            });
-
-          }).catch(e => console.log("Error con el login" + JSON.stringify(e)));
-      });
-    }
-  }
-  */
-
-  callWhats(){
+  //Metemos al stack la pagina de contacto y permite regresar a las promociones
+  contactar(){
     this.navCtrl.push(ContactoPage);
     /*
     let actionSheet = this.actionSheetCtrl.create({

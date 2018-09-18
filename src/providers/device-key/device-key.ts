@@ -24,6 +24,7 @@ export class DeviceKeyProvider {
     lang:1
   };
 
+   //Control para detectar cambios de idioma con app abierta
    lastLang:number;
 
   constructor(private httpclient:HttpClient,
@@ -32,7 +33,7 @@ export class DeviceKeyProvider {
               private globalization: Globalization,
               translate: TranslateService) {
 
-  //Obtenemos el idioma del dispositivo (ios, android) para guardarlo en nuestra variable keys
+  //Obtenemos el idioma del dispositivo (ios, android) para guardarlo en nuestra variable keys.
     if(this.plt.is('cordova')){
     this.globalization.getPreferredLanguage()
       .then(res => {
@@ -57,14 +58,14 @@ export class DeviceKeyProvider {
     }
   }
 
-  //Constructor para la petición del token único para el dispositivo
+  //Constructor para la petición del token único para el dispositivo. Peticiones para android y ios.
    getDeviceApiKey() {
   //Petición para android e ios
     if(this.plt.is('cordova')) {
       let promise = new Promise((resolve, reject) => {
         this.http.setDataSerializer('json');
         this.http.post('http://rest.viajesolympus.com/api/v1/auth/keys',
-          {idApp: '1212', lang: this.keys.lang.toString()},
+          {appId: '1212', lang: this.keys.lang.toString()},
           {'x-api-key': this.keys.apikey, "Content-Type": "application/json"})
           .then(data => {
             this.keys.devicetoken = JSON.parse(data.data)['token'];
@@ -86,7 +87,7 @@ export class DeviceKeyProvider {
       });
       let promise = new Promise((resolve, reject) => {
         let apiURL = window.location.origin + '/api/v1/auth/keys';
-        this.httpclient.post(apiURL, {idApp: '1212', lang:this.keys.lang.toString()}, {headers: hdrs},)
+        this.httpclient.post(apiURL, {appId: '3', lang:this.keys.lang.toString()}, {headers: hdrs},)
           .toPromise()
           .then(
             res => { // Success
@@ -105,16 +106,18 @@ export class DeviceKeyProvider {
     }
   }
 
-
+//Manejo para detectar cambio de idioma
   chaeckLan() : boolean{
     return this.keys.lang != this.lastLang;
   }
 
+  //Manejamos los errores de las peticiones
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
 
+  //Se escoge el idioma indicado para el dispositivo de los que esten disponibles
   private getSuitableLanguage(language) {
     language = language.substring(0, 2).toLowerCase();
     return availableLanguages.some(x => x.code == language) ? language : defaultLanguage;
@@ -123,6 +126,7 @@ export class DeviceKeyProvider {
 
 }
 
+//Interfaz con apikey que se usa en toda el app, el token del dispositivo y el lenguaje
 export interface DeviceKeyTokenLan{
   apikey: string,
   devicetoken: string

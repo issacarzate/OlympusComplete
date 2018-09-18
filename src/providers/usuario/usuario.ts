@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {HTTP} from "@ionic-native/http";
 import {Platform} from "ionic-angular";
+
+//Providers
 import {DeviceKeyProvider} from "../device-key/device-key";
 
-/*
-  Generated class for the UsuarioProvider provider.
+//Native
+import {HTTP} from "@ionic-native/http";
+import {Firebase} from "@ionic-native/firebase";
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+
 @Injectable()
 export class UsuarioProvider {
 
+  //Datos de prueba junto con datos reales
   usuario: Credenciales = {
     name : "issac",
     email : "issac@gmail.com",
     gender: true,
     deviceId: "dfsdf",
-    snId: "hgjhg",
+    snId: "",
     nickname: "perci",
     country: 1,
     city: "CDMX",
@@ -29,36 +30,27 @@ export class UsuarioProvider {
   };
 
   constructor(private httpclient:HttpClient,
+              public firebaseNative: Firebase,
+              //Manejamos peticiones desde puerto nativo admitido
               private http: HTTP,
               private DKP: DeviceKeyProvider,
+              //Detectamos plataforma
               private plt: Platform) {}
 
-  /*
-  cargarUsuario(nombre: string,
-                email: string,
-                imagen: string,
-                uid: string,
-                provider: string){
-    this.usuario.nombre=nombre;
-    this.usuario.email=email;
-    this.usuario.imagen=imagen;
-    this.usuario.uid=uid;
-    this.usuario.provider=provider;
-    console.log(this.usuario);
-    this.postfUser(this.usuario);
-
-  */
-
-  cargarUsuario(nombre: string,
+//Anadimos la informacion del usuario y lo mandamos
+  async cargarUsuario(nombre: string,
                 email: string,
                 snId: string){
     this.usuario.name=nombre;
     this.usuario.email=email;
     this.usuario.snId=snId;
-    console.log("Este usuario mandare.... " +  JSON.stringify(this.usuario));
+    //Obtenemos el token para las notificaciones
+    this.usuario.deviceId = await this.firebaseNative.getToken();
+    console.log("Este es el token " + this.usuario.deviceId);
     this.postfUser(this.usuario);
   }
 
+  //Funcion para mandar usuario a olympustours, se hace el mapeo de datos de forma manual. Regresa promesa.
   postfUser(usuario:Credenciales) {
     //Petición para android e ios
     if(this.plt.is('cordova')) {
@@ -139,6 +131,7 @@ export class UsuarioProvider {
     }
   }
 
+  //Manejamos errores
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
@@ -147,6 +140,7 @@ export class UsuarioProvider {
 
 }
 
+//Interfaz de los adatos a enviar a facebook
 export interface Credenciales {
   name?: string;
   email?: string;
@@ -161,12 +155,3 @@ export interface Credenciales {
   birthdate?: string;
   deviceDescription?: string;
 }
-/*
-export interface Credenciales {
-  nombre?: string;
-   email?: string;
-   imagen?: string;
-   uid?: string;
-   provider?: string;
-}
-*/
