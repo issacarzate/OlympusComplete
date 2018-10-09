@@ -8,6 +8,7 @@ import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 //Native
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
+import {Storage} from "@ionic/storage";
 
 
 @Component({
@@ -22,22 +23,54 @@ export class HomePage {
               //Proveedor de servicios de tours
               private _destinationsProvider: DestinationsProvider,
               //Proveedor de servicios de token
-              private DKP: DeviceKeyProvider) {
+              private DKP: DeviceKeyProvider,
+              private storage: Storage) {
 
   }
 
 //Si no hay token obtiene token antes de pedir tours
-  ionViewWillEnter(){
-    if(this.DKP.keys.devicetoken == ""){
-      this.DKP.getDeviceApiKey();
-    }
+  ionViewDidLoad(){
+    this.storage.get('lenguaje').then(done => {
+      if (done) {
+        if (this.DKP.keys.devicetoken == "") {
+          this.DKP.getDeviceApiKey().then(response => {
+            this._destinationsProvider.getHighlightedToursData();
+            this._destinationsProvider.getMostVisitedToursData();
+          });
+        } else {
+          this.DKP.obtenerIdioma();
+          if (this.DKP.keys.devicetoken == "") {
+            this.DKP.getDeviceApiKey().then(response => {
+              this._destinationsProvider.getHighlightedToursData();
+              this._destinationsProvider.getMostVisitedToursData();
+            });
+          }
+        }
+      }
+      });
   }
 
-  //Obitene los tours
-  ionViewDidLoad(){
-    this._destinationsProvider.getHighlightedToursData();
-    this._destinationsProvider.getMostVisitedToursData();
+  ionViewWillEnter(){
+    this.storage.get('lenguaje').then(done => {
+      if (done) {
+        if (this.DKP.keys.devicetoken == "") {
+          this.DKP.getDeviceApiKey().then(response => {
+            this._destinationsProvider.getHighlightedToursData();
+            this._destinationsProvider.getMostVisitedToursData();
+          });
+        } else {
+          this.DKP.obtenerIdioma();
+          if (this.DKP.keys.devicetoken == "") {
+            this.DKP.getDeviceApiKey().then(response => {
+              this._destinationsProvider.getHighlightedToursData();
+              this._destinationsProvider.getMostVisitedToursData();
+            });
+          }
+        }
+      }
+    });
   }
+
 
 //Revisa si cambio el idioma para perdir tours de nuevo
   ionViewDidEnter(){

@@ -1,0 +1,83 @@
+import controlador.ctrlAlumnos;
+import modelo.Modelo;
+import vista.Tabla;
+import vista.Vista;
+
+/**
+ *
+ * @author issac
+ */
+public class MVC {
+
+    public static void main(String[] args) {
+        Modelo model = new Modelo();
+        Vista view = new Vista();
+        Tabla tabla = new Tabla();
+
+        ctrlAlumnos ctrl = new ctrlAlumnos(view, model, tabla);
+
+        ctrl.inciar();
+
+        view.setVisible(true);
+    }
+
+}
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import modelo.Modelo;
+import vista.Tabla;
+import vista.Vista;
+
+/**
+ *
+ * @author issac
+ */
+public class ctrlAlumnos implements ActionListener {
+
+    Vista view = new Vista();
+    Modelo model = new Modelo();
+    Tabla vistaTabla = new Tabla();
+
+    String col[] = {"Nombre","Matricula"};
+    DefaultTableModel table = new DefaultTableModel(col, 0);
+
+    ArrayList<Modelo> alumnos = new ArrayList<Modelo>();
+
+    public ctrlAlumnos(Vista view, Modelo model, Tabla vistaTabla) {
+        this.view = view;
+        this.model = model;
+        this.vistaTabla = vistaTabla;
+
+        DefaultTableModel tablemodel = new DefaultTableModel();
+
+        this.vistaTabla.jTable1.setModel(tablemodel);
+
+        this.view.btnGuardar.addActionListener(this);
+        this.view.btnVer.addActionListener(this);
+    }
+
+    public void inciar() {
+        view.setTitle("Alumnos MVC");
+        view.setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == view.btnGuardar) {
+            model.setNombre(String.valueOf(view.txtNombre.getText()));
+            model.setMatricula(String.valueOf(view.txtMatricula.getText()));
+            alumnos.add(model);
+            view.txtImpresion.setText(model.imprimir());
+            System.out.println(String.valueOf(alumnos.get(alumnos.size() - 1).getNombre()));
+        }
+        if(e.getSource() == view.btnVer){
+            vistaTabla.setVisible(true);
+        }
+    }
+
+}

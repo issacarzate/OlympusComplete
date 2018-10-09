@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import {TabsPage} from "../tabs/tabs";
+import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 
 @IonicPage()
@@ -10,6 +11,7 @@ import {TabsPage} from "../tabs/tabs";
 })
 export class IntroPage {
   //Informacion para slides de introduccion
+
   slides:any[] = [
     {
       title: "Bienvenido!!!",
@@ -44,7 +46,44 @@ export class IntroPage {
   ];
 
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private DKP:DeviceKeyProvider) {
+  }
+
+  ionViewDidLoad(){
+    if(this.DKP.keys.lang == 2){
+      this.slides = [
+        {
+          title: "Welcome!!!",
+          description: "This <b>App</b> will make your journey easier!",
+          image: "assets/intro/1_slides-intro-06.png",
+        },
+        {
+          title: "Access all your info",
+          description: "<b>Olympus Tours</b> makes your map available for your arrival at the airport",
+          image: "assets/intro/2_slides-intro_slide-bienvenida.png",
+        },
+        {
+          title: "Don't stop traveling",
+          description: "Here you will find information about the most relevant trips",
+          image: "assets/intro/3_slides-intro_tours.png",
+        },
+        {
+          title: "Access exclusive benefits\n",
+          description: "Enter with your facebook to receive unique promotions to use this App",
+          image: "assets/intro/4_slides-intro_promotions.png",
+        },
+        {
+          title: "You are safe",
+          description: "Check our privacy policy from the settings section",
+          image: "assets/intro/5_slides-intro_settings.png",
+        },
+        {
+          title: "We are always here for you",
+          description: "In all our sections you can contact us to clarify any questions or purchase a service",
+          image: "assets/intro/6_slides-intro_telefono.png",
+        }
+      ];
+    }
   }
 
 //Ir al contolador de pestanas principal del app

@@ -5,7 +5,6 @@ import {InAppBrowser, InAppBrowserOptions} from '@ionic-native/in-app-browser';
 //Proveedores
 import {ContactoProvider} from "../../providers/contacto/contacto";
 import {DeviceKeyProvider} from "../../providers/device-key/device-key";
-import {ItinerarioProvider} from "../../providers/itinerario/itinerario";
 
 //Native
 import {CallNumber} from "@ionic-native/call-number";

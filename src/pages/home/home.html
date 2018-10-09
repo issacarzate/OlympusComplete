@@ -24,7 +24,7 @@
     <ion-slides [pager]="true">
       <ion-slide *ngFor="let slide of _destinationsProvider.HighlightedTours">
         <div>
-          <img [src]="slide.imageUrl"/>
+          <img [src]="slide.imageUrl" (click)="abrirEnlace(slide.dsImageUrl)"/>
         </div>
       </ion-slide>
     </ion-slides>

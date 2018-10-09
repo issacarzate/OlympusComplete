@@ -36,23 +36,10 @@ export class DestinationsProvider {
         {'x-api-key': this.DKP.keys.apikey,
         'content-type': 'application/json'})
         .then(data => {
-          //this.HighlightedTours.map( data.data.tours);
           this.HighlightedTours = JSON.parse(data.data)['tours'];
-         // data.data['tours'].map(this.HighlightedTours);
-          console.log(data.status);
-          console.log(data.data); // data received by server
-          console.log(data.headers);
-
-          console.log("Estos son los highlighted tours " + JSON.stringify(this.HighlightedTours));
-
-          //console.log(data.data);
-
         })
         .catch(error => {
-          console.log(error.status);
           console.log(error.error); // error message as string
-          console.log(error.headers);
-
         });
     }else {
       let hdrs = new HttpHeaders({
@@ -88,19 +75,9 @@ export class DestinationsProvider {
           'content-type': 'application/json'})
         .then(data => {
           this.MostVisitedTours = JSON.parse(data.data)['tours'];
-          // data.data['tours'].map(this.HighlightedTours);
-          console.log("Estos son los mas visitados tours " + JSON.stringify(this.MostVisitedTours));
-          console.log(data.status);
-          console.log(data.data); // data received by server
-          console.log(data.headers);
-
         })
         .catch(error => {
-          console.log("Estos son los mas visitados tours " + this.MostVisitedTours);
-          console.log(error.status);
-          console.log(error.error); // error message as string
-          console.log(error.headers);
-
+          console.log(error.error); // error message as string;
         });
     }else {
       let hdrs = new HttpHeaders({
@@ -114,7 +91,6 @@ export class DestinationsProvider {
           .then(
             res => { // Success
               this.MostVisitedTours = res['tours'];
-              console.log(this.MostVisitedTours);
               resolve();
             },
             msg => { // Error
@@ -139,6 +115,7 @@ export interface HighlightedToursRest{
   id: string;
   imageUrl: string;
   name: string;
+  dsImageUrl: string;
 }
 
 //Interfaz de Tours principales de inicio

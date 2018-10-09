@@ -10,6 +10,7 @@ import {availableLanguages, defaultLanguage} from "../../pages/global-languages/
 //Cordova Providers
 import {HTTP} from "@ionic-native/http";
 import { Globalization } from '@ionic-native/globalization';
+import {Storage} from "@ionic/storage";
 
 @Injectable()
 export class DeviceKeyProvider {
@@ -18,11 +19,13 @@ export class DeviceKeyProvider {
 
   //Variable usada para poder hacer las peticiones con todos lo parametros
   //y header adecuado a todos los servicios
-   keys:DeviceKeyTokenLan = {
+
+  keys:DeviceKeyTokenLan = {
     apikey: "1234",
     devicetoken: "",
-    lang:1
+    lang:2
   };
+
 
    //Control para detectar cambios de idioma con app abierta
    lastLang:number;
@@ -31,31 +34,11 @@ export class DeviceKeyProvider {
               private http: HTTP,
               private plt: Platform,
               private globalization: Globalization,
-              translate: TranslateService) {
+              private translate: TranslateService,
+              private storage: Storage) {
 
-  //Obtenemos el idioma del dispositivo (ios, android) para guardarlo en nuestra variable keys.
-    if(this.plt.is('cordova')){
-    this.globalization.getPreferredLanguage()
-      .then(res => {
-        console.log("Este es valor del idioma "+res.value);
-        var language = this.getSuitableLanguage(res.value);
-        if(language=="es"){this.keys.lang = 1;
-          this.lastLang=1;}
-        if(language=="en"){this.keys.lang = 2;
-          this.lastLang=2}
-      })
-      .catch(e => console.log(e));
-    }else{
-  //Obtenemos el idioma del navegador para guardarlo en nuestra variable keys
-      let browserLanguage = translate.getBrowserLang() || defaultLanguage;
-      var language = this.getSuitableLanguage(browserLanguage);
-      if (language == 'es'){
-        this.keys.lang = 1;
-      }
-      if (language == 'en'){
-        this.keys.lang = 2;
-      }
-    }
+    this.obtenerIdiomaCarga();
+
   }
 
   //Constructor para la petición del token único para el dispositivo. Peticiones para android y ios.
@@ -69,8 +52,8 @@ export class DeviceKeyProvider {
           {'x-api-key': this.keys.apikey, "Content-Type": "application/json"})
           .then(data => {
             this.keys.devicetoken = JSON.parse(data.data)['token'];
-            resolve();
-          },
+              resolve();
+            },
             msg => {
               reject(msg);
             }).catch(error => {
@@ -92,8 +75,6 @@ export class DeviceKeyProvider {
           .then(
             res => { // Success
               this.keys.devicetoken = res['token'];
-              console.log(res);
-
               console.log("Estos es el token del dispositivo " + JSON.stringify(this.keys.devicetoken ));
               resolve();
             },
@@ -109,6 +90,75 @@ export class DeviceKeyProvider {
 //Manejo para detectar cambio de idioma
   chaeckLan() : boolean{
     return this.keys.lang != this.lastLang;
+  }
+
+  obtenerIdioma(){
+    if(this.plt.is('cordova')){
+      this.globalization.getPreferredLanguage()
+        .then(res => {
+          console.log("Este es valor del idioma "+res.value);
+          var language = this.getSuitableLanguage(res.value);
+          if(language=="es"){
+            this.keys.lang = 1;
+            this.lastLang=1;}
+          if(language=="en"){
+            this.keys.lang = 2;
+            this.lastLang=2}
+        })
+        .catch(e => console.log(e));
+    }else{
+      //Obtenemos el idioma del navegador para guardarlo en nuestra variable keys
+      let browserLanguage = this.translate.getBrowserLang() || defaultLanguage;
+      var language = this.getSuitableLanguage(browserLanguage);
+      if (language == 'es'){
+        this.keys.lang = 1;
+        this.lastLang=1;
+      }
+      if (language == 'en'){
+        this.keys.lang = 2;
+        this.lastLang=2;
+      }
+    }
+  }
+  obtenerIdiomaCarga(){
+    //Obtenemos el idioma del dispositivo (ios, android) para guardarlo en nuestra variable keys.
+    this.storage.get('lenguaje').then(done => {
+      if (done) {
+        if(done=="es"){
+          this.keys.lang = 1;
+          this.keys.lang = 1;}
+        if(done=="en"){
+          this.keys.lang = 2;
+          this.keys.lang = 2;}
+      } else {
+        if(this.plt.is('cordova')){
+          this.globalization.getPreferredLanguage()
+            .then(res => {
+              console.log("Este es valor del idioma "+res.value);
+              var language = this.getSuitableLanguage(res.value);
+              if(language=="es"){
+                this.keys.lang = 1;
+                this.keys.lang = 1;}
+              if(language=="en"){
+                this.keys.lang = 2;
+                this.keys.lang = 2;}
+            })
+            .catch(e => console.log(e));
+        }else{
+          //Obtenemos el idioma del navegador para guardarlo en nuestra variable keys
+          let browserLanguage = this.translate.getBrowserLang() || defaultLanguage;
+          var language = this.getSuitableLanguage(browserLanguage);
+          if (language == 'es'){
+            this.keys.lang = 1;
+            this.lastLang=1;
+          }
+          if (language == 'en'){
+            this.keys.lang = 2;
+            this.lastLang=2;
+          }
+        }
+      }
+    });
   }
 
   //Manejamos los errores de las peticiones

@@ -85,6 +85,7 @@ export class ToursProvider {
           .then(
             res => { // Success
               this.DestinationsColl = res['destinations'];
+              console.log(res);
               resolve();
             },
             msg => { // Error

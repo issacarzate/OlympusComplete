@@ -43,7 +43,9 @@ $ ionic cordova platform add ios
 ```
 
 ### Hacer Build del Proyecto
-
+```
+$ cordova clean android
+```
 ```
 $ ionic cordova build android
 ```

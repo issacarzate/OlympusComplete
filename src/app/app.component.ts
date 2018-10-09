@@ -8,7 +8,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { FcmProvider } from '../providers/fcm/fcm';
 
 import { ToastController } from 'ionic-angular';
-import { Subject } from 'rxjs/Subject';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -21,40 +20,32 @@ export class MyApp {
               splashScreen: SplashScreen, fcm: FcmProvider, toastCtrl: ToastController) {
     platform.ready().then(() => {
 
-      // Get a FCM token
+
+
+  // Obtener token FCM
       if(platform.is('cordova')){
         // Get a FCM token
         fcm.getToken();
 
-// Listen to incoming messages
+  // Escuchar notificaciones
         fcm.listenToNotifications().pipe(
           tap(msg => {
-
             let messageText: string;
             if (platform.is('android')) {
               messageText = msg.body;
             }
-
             if (platform.is('ios')) {
               messageText = msg.aps.alert;
             }
-
-// show a toast
+  // Mostrar toast si se recive una notificación
             const toast = toastCtrl.create({
               message: messageText,
               duration: 3000,
               position: 'top'
             });
             toast.present();
-
-          })
-        )
-          .subscribe();
+          })).subscribe();
       }
-
-
-
-
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();

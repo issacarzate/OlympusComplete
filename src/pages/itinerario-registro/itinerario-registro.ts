@@ -53,13 +53,16 @@ export class ItinerarioRegistroPage {
     });
   }
 
-  ionViewWillEnter(){
-    //Se pide un token en caso de no tenerlo aun.
+  ionViewDidLoad(){
+    //Se pide un token en caso de no tenerlo aun y se piden los datos de paises.
    if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey().then(response => {
+        console.log("Ya tengo ley desde itinerario");
         this._toursProvider.getCountriesData();
       });
-    }
+    }else {
+     this._toursProvider.getCountriesData();
+   }
     //si ya se tiene un usuario guardado en almacenamiento nativo se dirije al itinerario
     this.storage.get('iUser').then(done => {
       if(done) {
@@ -81,6 +84,10 @@ export class ItinerarioRegistroPage {
      this.mensajeToastUsuarioInc = 'Not found user';
      this.verificacionFormulario = 'Verifing info...';
    }
+  }
+
+  ionViewDidEnter(){
+    if(this.DKP.chaeckLan())this._toursProvider.getCountriesData();
   }
 
   //Si no se tienen los paise se piden, en caso de tenerlo ya no hay otra peticion.

@@ -46,18 +46,18 @@
 
       <br>
 
-      <ion-item>
+      <ion-item class="ionSelectWidth" >
         <ion-label>País</ion-label>
-        <ion-select (click)="pedirpaises()" (ionCancel)="onCancelCountry()"   formControlName="country" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
+        <ion-select  class="ionSelectWidth" (click)="pedirpaises()" (ionCancel)="onCancelCountry()"   formControlName="country" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
           <ion-option *ngFor="let country of _toursProvider.CountriesColl" (ionSelect)="selectCountry(country.id)" >{{country.name}}</ion-option>
         </ion-select>
       </ion-item>
 
       <br>
 
-      <ion-item *ngIf="control==1">
-        <ion-label>Ciudad</ion-label>
-        <ion-select (ionCancel)="onCancelCity()"  formControlName="destination" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
+      <ion-item class="ionSelectWidth" *ngIf="control==1">
+        <ion-label >Ciudad</ion-label>
+        <ion-select  (ionCancel)="onCancelCity()"  formControlName="destination" clearInput [class.invalid]="!itineraryRegister.controls.fullname.valid && (itineraryRegister.controls.fullname.dirty || submitAttempt)">
           <ion-option *ngFor="let city of _toursProvider.DestinationsColl" (ionSelect)="selectCity(city.id)" >{{city.nombre}}</ion-option>
         </ion-select>
       </ion-item>

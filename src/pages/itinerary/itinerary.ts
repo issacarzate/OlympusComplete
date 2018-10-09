@@ -40,7 +40,7 @@ export class ItineraryPage {
   //Calculo de todas las fechas en formato correcto y creacion de notificacion en fecha del vuelo
   ionViewDidLoad() {
     this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(4,-2);
-    this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(4,-2);
+    this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(6);
     this.mesRegreso = "";
     this.diaRegreso = "";
     this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
@@ -187,19 +187,68 @@ Se carga otra pagina en el stack con el visualizador
   verMapa(){
     if(this.DKP.keys.lang == 1){
       switch(this._itineraryProvider.Itinerary.destination) {
-        case '5': {
-          this.mapSrc = this.path + 'map_cancun_term23_es.jpg';
+
+        case '20': {
+          this.mapSrc = this.path + 'map_puertoplata_pop_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
         case '6': {
+          this.mapSrc = this.path + 'map_cancun_term23_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '63': {
+          this.mapSrc = this.path + 'map_costarica_lib_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '53': {
+          this.mapSrc = this.path + 'map_costarica_sanjose_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '18': {
+          this.mapSrc = this.path + 'map_laromana_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '10': {
+          this.mapSrc = this.path + 'map_santiago_sti_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '11': {
+          this.mapSrc = this.path + 'map_cancun_term23_es.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '17': {
+          this.mapSrc = this.path + 'map_puntacana_termab_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '13': {
           this.mapSrc = this.path + 'mapa_cozumel_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '7': {
+        case '14': {
+          this.mapSrc = this.path + 'map_loscabos_term12_en.png';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '15': {
           this.mapSrc = this.path + 'mapa_stoDomingo_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
@@ -211,8 +260,8 @@ Se carga otra pagina en el stack con el visualizador
       }
     }else{
       switch(this._itineraryProvider.Itinerary.destination) {
-        case '5': {
-          this.mapSrc = this.path + 'map_cancun_term4_en.jpg';
+        case '20': {
+          this.mapSrc = this.path + 'map_puertoplata_pop_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
@@ -223,50 +272,50 @@ Se carga otra pagina en el stack con el visualizador
           console.log(this.mapSrc);
           break;
         }
-        case '7': {
+        case '63': {
           this.mapSrc = this.path + 'map_costarica_lib_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '8': {
+        case '53': {
           this.mapSrc = this.path + 'map_costarica_sanjose_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '9': {
+        case '18': {
           this.mapSrc = this.path + 'map_laromana_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
         case '10': {
-          this.mapSrc = this.path + 'map_loscabos_term12_en.png';
+          this.mapSrc = this.path + 'map_santiago_sti_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
         case '11': {
-          this.mapSrc = this.path + 'map_puertoplata_pop_en.jpg';
+          this.mapSrc = this.path + 'map_cancun_term4_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '12': {
+        case '17': {
           this.mapSrc = this.path + 'map_puntacana_termab_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
         break;
         }
         case '13': {
-          this.mapSrc = this.path + 'map_santiago_sti_en.jpg';
+          this.mapSrc = this.path + 'mapa_cozumel_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
         case '14': {
-          this.mapSrc = this.path + 'mapa_cozumel_en.jpg';
+          this.mapSrc = this.path + 'map_loscabos_term12_en.png';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;

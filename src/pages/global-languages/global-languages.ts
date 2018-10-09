@@ -8,6 +8,7 @@ import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 
 //Native
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
+import {Storage} from "@ionic/storage";
 
 
 @IonicPage()
@@ -33,16 +34,25 @@ export class GlobalLanguagesPage {
 
   constructor(translate: TranslateService,
               private DKP:DeviceKeyProvider,
+              private storage: Storage,
               //Navegador nativo para ver las politicas
               private iab: InAppBrowser) {
     this.translate = translate;
   }
 
   //Se aplica el lenguaje seleccionado
-  applyLanguage() {
-    this.translate.use(this.selectedLanguage);
-    if(this.selectedLanguage=="es"){this.DKP.keys.lang= 1;}
-    if(this.selectedLanguage=="en"){this.DKP.keys.lang= 2;}
+  applyLanguage(code) {
+    this.translate.use(code);
+    if(code=="es"){
+      this.storage.set('lenguaje', 'es');
+      this.DKP.keys.lang= 1;
+      this.DKP.lastLang=2;
+    }
+    if(code=="en"){
+      this.storage.set('lenguaje', 'en');
+      this.DKP.keys.lang= 2;
+      this.DKP.lastLang=1
+    }
   }
 
   //Abre las politicas de olympus tours

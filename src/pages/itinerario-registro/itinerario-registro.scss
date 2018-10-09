@@ -19,6 +19,17 @@ page-itinerario-registro {
     padding: 5px 10px;
   }
 
+
+  ion-item.ionSelectWidth {
+    ion-label {
+      min-width: 25%;
+      padding-right: auto;
+    }
+    ion-select {
+      min-width: 70%;
+    }
+  }
+
   .invalid {
     border: 1px solid #ea6153;
   }

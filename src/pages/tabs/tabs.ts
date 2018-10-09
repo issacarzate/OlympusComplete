@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 
 import {ItinerarioRegistroPage} from "../itinerario-registro/itinerario-registro";
 import {PromocionesLoginPage} from "../promociones-login/promociones-login";
@@ -24,10 +24,12 @@ export class TabsPage {
 
   color: string = "primary";
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController,
+              public storage: Storage) {
 
   }
   ionViewDidLoad() {
+    //Verificamos si ya había visto la intro el usuario
   this.storage.get('intro-done').then(done => {
     if (!done) {
       this.storage.set('intro-done', true);

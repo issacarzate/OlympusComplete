@@ -4,6 +4,7 @@ import { GlobalLanguagesPage } from './global-languages';
 import {TranslateModule, TranslateService} from "ng2-translate";
 import {Globalization} from "@ionic-native/globalization";
 import {defaultLanguage, sysOptions, availableLanguages} from "./global-languages.constants";
+import {Storage} from "@ionic/storage";
 
 @NgModule({
   imports: [IonicModule, TranslateModule],
@@ -11,23 +12,10 @@ import {defaultLanguage, sysOptions, availableLanguages} from "./global-language
   entryComponents: [GlobalLanguagesPage]
 })
 export class GlobalLanguagesPageModule {
-  constructor(platform: Platform, translate: TranslateService, private globalization: Globalization) {
+  constructor(private platform: Platform, private translate: TranslateService, private globalization: Globalization, private storage: Storage) {
     platform.ready().then(() => {
-        // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang(defaultLanguage);
-
-        if ((<any>window).cordova) {
-          this.globalization.getPreferredLanguage().then(result => {
-            var language = this.getSuitableLanguage(result.value);
-            translate.use(language);
-            sysOptions.systemLanguage = language;
-          });
-        } else {
-          let browserLanguage = translate.getBrowserLang() || defaultLanguage;
-          var language = this.getSuitableLanguage(browserLanguage);
-          translate.use(language);
-          sysOptions.systemLanguage = language;
-        }
+      // try to get saved language
+      this.setLanguage();
       }
     );
   }
@@ -36,5 +24,38 @@ export class GlobalLanguagesPageModule {
   getSuitableLanguage(language) {
     language = language.substring(0, 2).toLowerCase();
     return availableLanguages.some(x => x.code == language) ? language : defaultLanguage;
+  }
+
+
+  setLanguage(){
+    if(this.platform.is('cordova')){
+    this.storage.get('lenguaje').then(done => {
+      if(done) {
+        if ((<any>window).cordova) {
+          this.translate.use(done);
+          console.log("Esto es lo que tenia guardado como idioma...." + done);
+        }
+      }else if(!done){
+        // this language will be used as a fallback when a translation isn't found in the current language
+        this.translate.setDefaultLang(defaultLanguage);
+
+        if ((<any>window).cordova) {
+          this.globalization.getPreferredLanguage().then(result => {
+            var language = this.getSuitableLanguage(result.value);
+            this.translate.use(language);
+            sysOptions.systemLanguage = language;
+            this.storage.set('lenguaje', language);
+          });
+        }
+      }
+    });
+    }else {
+      let browserLanguage = this.translate.getBrowserLang() || defaultLanguage;
+      var language = this.getSuitableLanguage(browserLanguage);
+      this.translate.use(language);
+      sysOptions.systemLanguage = language;
+      this.storage.set('lenguaje', language);
+    }
+
   }
 }

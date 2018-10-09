@@ -7,11 +7,11 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-group radio-group (ionChange)="applyLanguage()" [(ngModel)]="selectedLanguage">
+    <ion-item-group radio-group>
       <ion-item-divider color="light"> {{'Preferences_Language_Selector_Tile' | translate}} </ion-item-divider>
-      <ion-item *ngFor="let lang of languages">
-        <ion-label>{{lang.name}}</ion-label>
-        <ion-radio [value]="lang.code"></ion-radio>
+      <ion-item *ngFor="let lang of languages" >
+        <ion-label  (click)="applyLanguage(lang.code)">{{lang.name}}</ion-label>
+        <ion-radio [value]="lang.code"  (click)="applyLanguage(lang.code)"></ion-radio>
       </ion-item>
       <ion-item-divider color="light"> {{'Preferences_Terms_Section_Title' | translate}} </ion-item-divider>
       <button ion-item (click)="abrirEnlace(this.politicas[0]['liga'])">
@@ -26,26 +26,4 @@
       </button>
     </ion-item-group>
   </ion-list>
-
-    <!--
-    <ion-item-group>
-      <ion-item-divider color="light">Translations</ion-item-divider>
-      <ion-item>
-        <h2>Simple translation string</h2>
-        <p>{{ 'HELLO' | translate }}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Simple translation string again</h2>
-        <p>{{ 'I18N_EXAMPLE' | translate }}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Translation string with a param</h2>
-        <p>{{ 'STRING_WITH_PARAMS' | translate : param }}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Inner content as a key</h2>
-        <p translate [translateParams]="{ value: 'world 3' }">INNER_CONTENT</p>
-      </ion-item>
-    </ion-item-group>
-  -->
 </ion-content>
