@@ -38,20 +38,47 @@ export class GlobalLanguagesPage {
               //Navegador nativo para ver las politicas
               private iab: InAppBrowser) {
     this.translate = translate;
+
   }
 
-  //Se aplica el lenguaje seleccionado
+//Checa si el idioma para mostrar terminos correctos al usuario
+  ionViewWillEnter(){
+    if(this.DKP.keys.lang == 1){
+      this.politicas =[{
+        liga: "https://www.olympus-tours.com.mx/terminos.php"
+      },{
+        liga: "https://www.olympus-tours.com.mx/politicas_privacidad.php"
+      }];
+    }
+  }
+
+
+
+  //Se aplica el lenguaje seleccionado y cambvia las ligas de terminos a las correctas sobre la marcha
   applyLanguage(code) {
     this.translate.use(code);
     if(code=="es"){
       this.storage.set('lenguaje', 'es');
       this.DKP.keys.lang= 1;
       this.DKP.lastLang=2;
+
+      this.politicas =[{
+        liga: "https://www.olympus-tours.com.mx/terminos.php"
+      },{
+        liga: "https://www.olympus-tours.com.mx/politicas_privacidad.php"
+      }];
+
     }
     if(code=="en"){
       this.storage.set('lenguaje', 'en');
       this.DKP.keys.lang= 2;
-      this.DKP.lastLang=1
+      this.DKP.lastLang=1;
+
+      this.politicas =[{
+        liga: "https://www.olympus-tours.com/terms-conditions#terms_conditions"
+      },{
+        liga: "https://www.olympus-tours.com/terms-conditions#privacy"
+      }];
     }
   }
 

@@ -15,8 +15,8 @@
 
 <ion-content center text-center padding>
   <ion-slides class="image-slider" >
-    <ion-slide>
-      <img [src]="mapSrc" class="thumb-img" imageViewer>
+    <ion-slide *ngFor="let slide of maps">
+      <img [src]="slide.url" class="thumb-img" imageViewer>
     </ion-slide>
   </ion-slides>
 </ion-content>

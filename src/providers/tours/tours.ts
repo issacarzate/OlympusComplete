@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Platform} from "ionic-angular";
 import {HTTP} from "@ionic-native/http";
 import {DeviceKeyProvider} from "../device-key/device-key";
-import {getPromise} from "@ionic-native/core";
 
 @Injectable()
 export class ToursProvider {
@@ -25,18 +24,22 @@ export class ToursProvider {
   //Obtenemos la informacion de paises disponibles para viajar para Android, iOS o web y regresa una promesa.
   getCountriesData() {
     if(this.plt.is('cordova')){
-      this.http.setDataSerializer('json');
-      this.http.get('http://rest.viajesolympus.com/api/v1/countries?lang=' + this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
-        {},
-        {'x-api-key': this.DKP.keys.apikey,
-        'content-type': 'application/json'})
-        .then(data => {
-          this.CountriesColl = JSON.parse(data.data)['countries'];
-          return getPromise
-        })
-        .catch(error => {
-          console.log(error);
+      let promise = new Promise((resolve, reject) => {
+        this.http.get('http://rest.viajesolympus.com/api/v1/countries?lang=' + this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
+          {},
+          {'x-api-key': this.DKP.keys.apikey,
+            'content-type': 'application/json'})
+          .then(data => {
+              this.CountriesColl = JSON.parse(data.data)['countries'];
+              resolve();
+            },
+            msg => {
+              reject(msg);
+            }).catch(error => {
+          console.log(error.data); // error message as string
         });
+      });
+      return promise;
     }else {
       let hdrs = new HttpHeaders({
         'x-api-key': this.DKP.keys.apikey,
@@ -62,17 +65,25 @@ export class ToursProvider {
 
   //Obtenemos los destinos para el pais en Android, iOS o Web
   getDestinationsData(id:string) {
-    if(this.plt.is('cordova')){
-      this.http.setDataSerializer('json');
-      this.http.get('http://rest.viajesolympus.com/api/v1/countries/'+ id + '/destinations?lang='+ this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
-        {},
-        {'x-api-key': this.DKP.keys.apikey,
-        'content-type': 'application/json'})
-        .then(data => {
-          this.DestinationsColl = JSON.parse(data.data)['destinations'];
-        }).catch(error => {
-          console.log(error);
+    if(this.plt.is('cordova')) {
+      let promise = new Promise((resolve, reject) => {
+        this.http.get('http://rest.viajesolympus.com/api/v1/countries/' + id + '/destinations?lang=' + this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
+          {},
+          {
+            'x-api-key': this.DKP.keys.apikey,
+            'content-type': 'application/json'
+          })
+          .then(data => {
+              this.DestinationsColl = JSON.parse(data.data)['destinations'];
+              resolve();
+            },
+            msg => {
+              reject(msg);
+            }).catch(error => {
+          console.log(error.data); // error message as string
         });
+      });
+      return promise;
     }else {
       let hdrs = new HttpHeaders({
         'x-api-key': this.DKP.keys.apikey,
@@ -99,18 +110,23 @@ export class ToursProvider {
 
   //Obtenemos toda la informacion de los tours en iOS, Android o Web
   getToursData(cityId:string) {
-    console.log(cityId);
     if(this.plt.is('cordova')){
-      this.http.setDataSerializer('json');
-      this.http.get('http://rest.viajesolympus.com/api/v1/destinations/'+ cityId + '/tours?lang='+ this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
-        {},
-        {'x-api-key': this.DKP.keys.apikey,
-        'content-type': 'application/json'})
-        .then(data => {
-          this.ToursColl = JSON.parse(data.data)['tours'];
-        }).catch(error => {
-          console.log(error);
+      let promise = new Promise((resolve, reject) => {
+        this.http.get('http://rest.viajesolympus.com/api/v1/destinations/'+ cityId + '/tours?lang='+ this.DKP.keys.lang.toString() + '&token=' + this.DKP.keys.devicetoken,
+          {},
+          {'x-api-key': this.DKP.keys.apikey,
+            'content-type': 'application/json'})
+          .then(data => {
+              this.ToursColl = JSON.parse(data.data)['tours'];
+              resolve();
+            },
+            msg => {
+              reject(msg);
+            }).catch(error => {
+          console.log(error.data); // error message as string
         });
+      });
+      return promise;
     }else {
       let hdrs = new HttpHeaders({
         'x-api-key': this.DKP.keys.apikey,
@@ -123,6 +139,7 @@ export class ToursProvider {
           .then(
             res => { // Success
               this.ToursColl = res['tours'];
+              console.log(res);
               resolve();
             },
             msg => { // Error
@@ -160,6 +177,6 @@ export interface ToursRest{
   imageUrl : string;
   name : string;
   descripcion : string;
-  tour_url : string;
+  urlBook : string;
   urlVideo : string;
 }

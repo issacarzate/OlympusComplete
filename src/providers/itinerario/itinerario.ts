@@ -40,7 +40,7 @@ export class ItinerarioProvider {
         this.http.get('http://rest.viajesolympus.com/api/v1/travelers?lang=' +
           this.DKP.keys.lang.toString() + '&token=' +
           this.DKP.keys.devicetoken +
-          '&name=' + name +
+          '&name=' + name.replace(" ", "%20") +
           '&booking=' + booking +
           '&destination=' + destination,
           {},
@@ -51,6 +51,7 @@ export class ItinerarioProvider {
           .then(data => {
               this.Itinerary = JSON.parse(data.data)['itinerary'];
               this.Itinerary.destination = destination;
+              console.log(data);
               resolve();
             },
             msg => {
@@ -70,7 +71,7 @@ export class ItinerarioProvider {
         let apiURL = window.location.origin + '/api/v1/travelers?lang=' +
           this.DKP.keys.lang.toString() + '&token=' +
           this.DKP.keys.devicetoken +
-          '&name=' + name +
+          '&name=' + name.replace(" ", "%20") +
           '&booking='+ booking +
           '&destination=' + destination;
         this.httpclient.get(apiURL,  {headers: hdrs})
@@ -79,6 +80,7 @@ export class ItinerarioProvider {
             res => { // Success
               this.Itinerary = res['itinerary'];
               this.Itinerary.destination = destination;
+              console.log(res);
               resolve();
             },
             msg => { // Error

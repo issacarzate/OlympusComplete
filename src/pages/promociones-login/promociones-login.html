@@ -65,7 +65,7 @@
             ion-text color="textPrimary"></p></b>
       <p [innerHTML]="offer.description"
          ion-text color="textPrimary"></p>
-      <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.url)">{{'Promociones_Page_MainTitle' | translate}}</button>
+      <button ion-button round color="textHighlight" (click)="navigateToOffer(offer.url)">{{offer.button}}</button>
     </ion-slide>
   </ion-slides>
 

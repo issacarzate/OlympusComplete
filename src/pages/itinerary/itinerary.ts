@@ -22,6 +22,8 @@ export class ItineraryPage {
   diaIda:string;
   mesRegreso:string;
   diaRegreso:string;
+  year:string;
+  yearRegreso:string;
   ida:string;
   regreso:string;
 
@@ -39,24 +41,55 @@ export class ItineraryPage {
 
   //Calculo de todas las fechas en formato correcto y creacion de notificacion en fecha del vuelo
   ionViewDidLoad() {
-    this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(4,-2);
-    this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(6);
-    this.mesRegreso = "";
-    this.diaRegreso = "";
-    this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
-    console.log('Fecha de notificacion: ' + new Date(this.ida));
-    this.regreso = this._itineraryProvider.Itinerary.departure_date.slice(0,-8);
-    this.calcularFecha(this.mesIda);
-    this.idiomaNotificacio();
-    this.localNotifications.cancelAll().then(()=>{
-      this.localNotifications.schedule([{
-        title: this.tituloNotificacion,
-        text: this.textoNotificacion,
-        led: 'FF0000',
-        trigger: {at: new Date(this.ida)
-        }
-      }]);
-    }).catch(err => console.log(err));
+    if(this.DKP.keys.lang == 1){
+      this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-6,-4);
+      this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(0,-6);
+      this.year =  this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-4);
+      this.diaRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-6,-4);
+      this.mesRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(0,-6);
+      this.yearRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-4);
+      this.regreso = this.diaRegreso + "-" + this.mesRegreso + "-" + this.yearRegreso;
+      this.mesRegreso = "";
+      this.diaRegreso = "";
+      this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
+      console.log('Fecha de notificacion: ' + new Date(this.ida));
+      this.regreso = this._itineraryProvider.Itinerary.departure_date.slice(0,-8);
+      this.calcularFecha(this.mesIda);
+      this.idiomaNotificacio();
+      this.localNotifications.cancelAll().then(()=>{
+        this.localNotifications.schedule([{
+          title: this.tituloNotificacion,
+          text: this.textoNotificacion,
+          led: 'FF0000',
+          trigger: {at: new Date(this.ida)
+          }
+        }]);
+      }).catch(err => console.log(err));
+    }
+    if(this.DKP.keys.lang == 2){
+      this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(0,-6);
+      this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-6,-4);
+      this.year =  this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-4);
+      this.diaRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(0,-6);
+      this.mesRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-6,-4);
+      this.yearRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-4);
+      this.regreso = this.diaRegreso + "-" + this.mesRegreso + "-" + this.yearRegreso;
+      this.ida = this.diaIda + "-" + this.mesIda + "-" + this.year;;
+      //this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
+      console.log('Fecha de notificacion: ' + new Date(this.ida));
+      //this.regreso = this._itineraryProvider.Itinerary.departure_date.slice(0,-8);
+      this.calcularFecha(this.mesIda);
+      this.idiomaNotificacio();
+      this.localNotifications.cancelAll().then(()=>{
+        this.localNotifications.schedule([{
+          title: this.tituloNotificacion,
+          text: this.textoNotificacion,
+          led: 'FF0000',
+          trigger: {at: new Date(this.ida)
+          }
+        }]);
+      }).catch(err => console.log(err));
+    }
   }
 
   //Manejo de informacion del itinerario en almacenamiento local
@@ -124,39 +157,39 @@ export class ItineraryPage {
      }
    } else {
      switch(mes) {
-       case '01': {
+       case '1': {
          this.mesIda = 'Jan';
          break;
        }
-       case '02': {
+       case '2': {
          this.mesIda = 'Feb';
          break;
        }
-       case '03': {
+       case '3': {
          this.mesIda = 'Mar';
          break;
        }
-       case '04': {
+       case '4': {
          this.mesIda = 'Apr';
          break;
        }
-       case '05': {
+       case '5': {
          this.mesIda = 'May';
          break;
        }
-       case '06': {
+       case '6': {
          this.mesIda = 'Jun';
          break;
        }
-       case '07': {
+       case '7': {
          this.mesIda = 'Jul';
          break;
        }
-       case '08': {
+       case '8': {
          this.mesIda = 'Aug';
          break;
        }
-       case '09': {
+       case '9': {
          this.mesIda = 'Sep';
          break;
        }
@@ -188,62 +221,56 @@ Se carga otra pagina en el stack con el visualizador
     if(this.DKP.keys.lang == 1){
       switch(this._itineraryProvider.Itinerary.destination) {
 
-        case '20': {
-          this.mapSrc = this.path + 'map_puertoplata_pop_en.jpg';
+        case '10': {
+          this.mapSrc = this.path + 'mapa_puertplata_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '6': {
+        case '1': {
           this.mapSrc = this.path + 'map_cancun_term23_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '63': {
-          this.mapSrc = this.path + 'map_costarica_lib_en.jpg';
+        case '62': {
+          this.mapSrc = this.path + 'mapa_liberia_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '53': {
-          this.mapSrc = this.path + 'map_costarica_sanjose_en.jpg';
+        case '52': {
+          this.mapSrc = this.path + 'mapa_sanjose_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '18': {
-          this.mapSrc = this.path + 'map_laromana_en.jpg';
-          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
-          console.log(this.mapSrc);
-          break;
-        }
-        case '10': {
-          this.mapSrc = this.path + 'map_santiago_sti_en.jpg';
-          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
-          console.log(this.mapSrc);
-          break;
-        }
-        case '11': {
-          this.mapSrc = this.path + 'map_cancun_term23_es.jpg';
-          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
-          console.log(this.mapSrc);
-          break;
-        }
-        case '17': {
-          this.mapSrc = this.path + 'map_puntacana_termab_en.jpg';
+        case '8': {
+          this.mapSrc = this.path + 'mapa_laromana_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
         case '13': {
+          this.mapSrc = this.path + 'mapa_santiago_es.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '7': {
+          this.mapSrc = this.path + 'map_puntacana_termab_en.jpg';
+          this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
+          console.log(this.mapSrc);
+          break;
+        }
+        case '3': {
           this.mapSrc = this.path + 'mapa_cozumel_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
         }
-        case '14': {
-          this.mapSrc = this.path + 'map_loscabos_term12_en.png';
+        case '4': {
+          this.mapSrc = this.path + 'mapa_loscabos_es.png';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
@@ -266,7 +293,7 @@ Se carga otra pagina en el stack con el visualizador
           console.log(this.mapSrc);
           break;
         }
-        case '6': {
+        case '11': {
           this.mapSrc = this.path + 'map_cancun_term23_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
@@ -296,7 +323,7 @@ Se carga otra pagina en el stack con el visualizador
           console.log(this.mapSrc);
           break;
         }
-        case '11': {
+        case '15': {
           this.mapSrc = this.path + 'map_cancun_term4_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
@@ -320,7 +347,7 @@ Se carga otra pagina en el stack con el visualizador
           console.log(this.mapSrc);
           break;
         }
-        case '15': {
+        case '25': {
           this.mapSrc = this.path + 'mapa_stoDomingo_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);

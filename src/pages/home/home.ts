@@ -50,6 +50,7 @@ export class HomePage {
       });
   }
 
+  //Si cambia el idioma vuelve a pedir datos
   ionViewWillEnter(){
     this.storage.get('lenguaje').then(done => {
       if (done) {
