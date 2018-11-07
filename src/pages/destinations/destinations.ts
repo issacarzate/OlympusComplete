@@ -45,21 +45,27 @@ export class DestinationsPage {
 
   //Revisa si cambio el idioma para perdir paises de nuevo
   ionViewDidEnter(){
-    this.loading = this.loadingCtrl.create({
-      content: this.verificacionFormulario
-    });
-    this.loading.present().then();
-    if(this.DKP.chaeckLan())this._toursProvider.getCountriesData().then(
-      response => {
-        this.loading.dismissAll();
-      }
-    );
+
+    if(this.DKP.chaeckLan()){
+      this.loading = this.loadingCtrl.create({
+        content: this.verificacionFormulario,
+        duration: 3000
+      });
+      this.loading.present().then();
+
+      this._toursProvider.getCountriesData().then(
+        response => {
+          this.loading.dismissAll();
+        }
+      );
+    }
   }
 
   //Manda el pais para pedir sus destinos en la siguiente pagina mediante el mismo proveedor
   elegirPais(countryId:string){
     this.loading = this.loadingCtrl.create({
-      content: this.verificacionFormulario
+      content: this.verificacionFormulario,
+      duration: 3000
     });
     this.loading.present().then();
     this._toursProvider.getDestinationsData(countryId).then(

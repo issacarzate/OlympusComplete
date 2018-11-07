@@ -26,6 +26,7 @@ export class ItineraryPage {
   yearRegreso:string;
   ida:string;
   regreso:string;
+  notificationDate:string;
 
   tituloNotificacion:string;
   textoNotificacion:string;
@@ -42,17 +43,18 @@ export class ItineraryPage {
   //Calculo de todas las fechas en formato correcto y creacion de notificacion en fecha del vuelo
   ionViewDidLoad() {
     if(this.DKP.keys.lang == 1){
-      this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-6,-4);
-      this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(0,-6);
+      this.mesIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(0,-6);
+      this.diaIda = this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-6,-4);
       this.year =  this._itineraryProvider.Itinerary.arrival_date_numeric.toString().slice(-4);
       this.diaRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-6,-4);
       this.mesRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(0,-6);
       this.yearRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-4);
       this.regreso = this.diaRegreso + "-" + this.mesRegreso + "-" + this.yearRegreso;
-      this.mesRegreso = "";
-      this.diaRegreso = "";
+      this.notificationDate = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
+     // this.mesRegreso = "";
+      //this.diaRegreso = "";
       this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
-      console.log('Fecha de notificacion: ' + new Date(this.ida));
+      console.log('Fecha de notificacion: ' + new Date(this.notificationDate));
       this.regreso = this._itineraryProvider.Itinerary.departure_date.slice(0,-8);
       this.calcularFecha(this.mesIda);
       this.idiomaNotificacio();
@@ -61,7 +63,7 @@ export class ItineraryPage {
           title: this.tituloNotificacion,
           text: this.textoNotificacion,
           led: 'FF0000',
-          trigger: {at: new Date(this.ida)
+          trigger: {at: new Date(this.notificationDate)
           }
         }]);
       }).catch(err => console.log(err));
@@ -73,10 +75,11 @@ export class ItineraryPage {
       this.diaRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(0,-6);
       this.mesRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-6,-4);
       this.yearRegreso = this._itineraryProvider.Itinerary.departure_date_numeric.toString().slice(-4);
-      this.regreso = this.diaRegreso + "-" + this.mesRegreso + "-" + this.yearRegreso;
-      this.ida = this.diaIda + "-" + this.mesIda + "-" + this.year;;
+      this.regreso = this.diaRegreso   + "-" + this.mesRegreso + "-" + this.yearRegreso;
+      this.ida = this.mesIda + "-" + this.diaIda + "-" + this.year;
+      this.notificationDate = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
       //this.ida = this._itineraryProvider.Itinerary.arrival_date.slice(0,-9);
-      console.log('Fecha de notificacion: ' + new Date(this.ida));
+      console.log('Fecha de notificacion: ' + new Date(this.notificationDate));
       //this.regreso = this._itineraryProvider.Itinerary.departure_date.slice(0,-8);
       this.calcularFecha(this.mesIda);
       this.idiomaNotificacio();
@@ -85,7 +88,7 @@ export class ItineraryPage {
           title: this.tituloNotificacion,
           text: this.textoNotificacion,
           led: 'FF0000',
-          trigger: {at: new Date(this.ida)
+          trigger: {at: new Date(this.notificationDate)
           }
         }]);
       }).catch(err => console.log(err));
@@ -270,7 +273,7 @@ Se carga otra pagina en el stack con el visualizador
           break;
         }
         case '4': {
-          this.mapSrc = this.path + 'mapa_loscabos_es.png';
+          this.mapSrc = this.path + 'mapa_loscabos_es.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;
@@ -342,7 +345,7 @@ Se carga otra pagina en el stack con el visualizador
           break;
         }
         case '14': {
-          this.mapSrc = this.path + 'map_loscabos_term12_en.png';
+          this.mapSrc = this.path + 'map_loscabos_term12_en.jpg';
           this.navCtrl.push(AirportMapPage, {mapPath: this.mapSrc});
           console.log(this.mapSrc);
           break;

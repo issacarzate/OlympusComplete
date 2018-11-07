@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import {App, IonicPage} from 'ionic-angular';
 import {availableLanguages, sysOptions} from "./global-languages.constants";
 import {TranslateService} from "ng2-translate";
 
@@ -9,6 +9,7 @@ import {DeviceKeyProvider} from "../../providers/device-key/device-key";
 //Native
 import {InAppBrowser, InAppBrowserOptions} from "@ionic-native/in-app-browser";
 import {Storage} from "@ionic/storage";
+import {HomePage} from "../home/home";
 
 
 @IonicPage()
@@ -36,7 +37,9 @@ export class GlobalLanguagesPage {
               private DKP:DeviceKeyProvider,
               private storage: Storage,
               //Navegador nativo para ver las politicas
-              private iab: InAppBrowser) {
+              private iab: InAppBrowser,
+              public appCtrl: App
+  ) {
     this.translate = translate;
 
   }
@@ -62,11 +65,8 @@ export class GlobalLanguagesPage {
       this.DKP.keys.lang= 1;
       this.DKP.lastLang=2;
 
-      this.politicas =[{
-        liga: "https://www.olympus-tours.com.mx/terminos.php"
-      },{
-        liga: "https://www.olympus-tours.com.mx/politicas_privacidad.php"
-      }];
+        window.location.reload();
+        this.appCtrl.getRootNav().setRoot(HomePage);
 
     }
     if(code=="en"){
@@ -74,11 +74,8 @@ export class GlobalLanguagesPage {
       this.DKP.keys.lang= 2;
       this.DKP.lastLang=1;
 
-      this.politicas =[{
-        liga: "https://www.olympus-tours.com/terms-conditions#terms_conditions"
-      },{
-        liga: "https://www.olympus-tours.com/terms-conditions#privacy"
-      }];
+      window.location.reload();
+      this.appCtrl.getRootNav().setRoot(HomePage);
     }
   }
 

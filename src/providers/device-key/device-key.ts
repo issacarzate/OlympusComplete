@@ -23,7 +23,7 @@ export class DeviceKeyProvider {
   keys:DeviceKeyTokenLan = {
     apikey: "1234",
     devicetoken: "",
-    lang:2
+    lang:1
   };
 
 

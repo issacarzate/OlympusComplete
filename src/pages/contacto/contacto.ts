@@ -15,6 +15,7 @@ import {CallNumber} from "@ionic-native/call-number";
   templateUrl: 'contacto.html',
 })
 export class ContactoPage {
+  mensajeLlamada:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private actionSheetCtrl:ActionSheetController,
@@ -28,6 +29,12 @@ export class ContactoPage {
   ionViewWillEnter(){
     if(this.DKP.keys.devicetoken == ""){
       this.DKP.getDeviceApiKey();
+    }
+    if(this.DKP.keys.lang == 1){
+      this.mensajeLlamada = "Llámanos"
+    }
+    if(this.DKP.keys.lang == 2){
+      this.mensajeLlamada = "Give Us A Call"
     }
   }
 
@@ -44,7 +51,7 @@ export class ContactoPage {
   //Permite lanzar llamada con el numero recibido y escoger entre nacional e internacional
   llamada(intPhone:string, domPhone:string){
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Give Us A Call',
+      title: this.mensajeLlamada,
       buttons: [
         {
           text: 'Local',
@@ -87,6 +94,6 @@ export class ContactoPage {
         const options: InAppBrowserOptions = {
           zoom: 'no'
         };
-        this.iab.create('https://api.whatsapp.com/send?phone=' + whatsNumero + '&text=' + whatsMensaje, '_self', options);
+        this.iab.create('https://api.whatsapp.com/send?phone=' + whatsNumero + '&text=' + whatsMensaje, '_system', options);
     }
 }

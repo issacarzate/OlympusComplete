@@ -47,9 +47,6 @@ export class IntroPage {
 
 
   constructor(public navCtrl: NavController, private DKP:DeviceKeyProvider) {
-  }
-
-  ionViewDidLoad(){
     if(this.DKP.keys.lang == 2){
       this.slides = [
         {

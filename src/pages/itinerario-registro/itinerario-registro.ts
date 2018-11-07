@@ -73,17 +73,20 @@ export class ItinerarioRegistroPage {
         this.controlUser = true;
       }
     });
-   //Validacion del idioma del usuario para mensajes de error
-   if(this.DKP.keys.lang==1){
-     this.mensajeToastFormularioInvalido = 'Completa los datos';
-     this.mensajeToastUsuarioInc = 'Usuario no encontrado';
-     this.verificacionFormulario = 'Verificando Información...';
-   }else{
-     //Mensajes en ingles
-     this.mensajeToastFormularioInvalido = 'Complete form data';
-     this.mensajeToastUsuarioInc = 'Not found user';
-     this.verificacionFormulario = 'Verifing info...';
-   }
+  }
+
+  ionViewWillEnter(){
+    //Validacion del idioma del usuario para mensajes de error
+    if(this.DKP.keys.lang==1){
+      this.mensajeToastFormularioInvalido = 'Completa los datos';
+      this.mensajeToastUsuarioInc = 'Usuario no encontrado';
+      this.verificacionFormulario = 'Verificando Información...';
+    }else{
+      //Mensajes en ingles
+      this.mensajeToastFormularioInvalido = 'Complete form data';
+      this.mensajeToastUsuarioInc = 'Not found user';
+      this.verificacionFormulario = 'Verifing info...';
+    }
   }
 
   ionViewDidEnter(){
@@ -172,7 +175,8 @@ export class ItinerarioRegistroPage {
   }
 
   onCancelCountry(){
-    this.control = 0;
+      this.control=0;
+    this.itineraryRegister.patchValue({country: null});
   }
 
   onCancelCity(){
